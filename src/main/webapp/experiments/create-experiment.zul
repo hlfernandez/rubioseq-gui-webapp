@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?page title="RUbioSeq-GUI - Create experiment" contentType="text/html;charset=UTF-8"?>
+<?link rel="stylesheet" type="text/css" href="/css/style.css"?>
+<?link rel="shortcut icon" href="/favicon.ico"?>
+
+<!--
+	This file is part of RUbioSeq-GUI.
+
+	RUbioSeq-GUI is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	RUbioSeq-GUI is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with RUbioSeq-GUI.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<zk>
+	<borderlayout hflex="1" vflex="1">
+		<north border="none" >
+			<include src="/layout/header.zul"/>
+		</north>
+		<center>
+			<borderlayout hflex="1" vflex="1">
+				<north border="none" >
+					<include src="/layout/menu-user.zul"/>
+				</north>
+				<center id="mainContent" autoscroll="true" border="none">
+					<groupbox mold="3d" hflex="true" vflex="true" closable="false">
+					<caption label="Create new experiment" image="/imgs/home22.png"/>
+						
+						<vlayout hflex="true" vflex="true">
+						<vbox align="center" pack="center" hflex="true">
+							<button
+								class="noborder"
+								label="SNV: Single nucleotide variant (SNVs) calling"
+								href="/experiments/create-experiment-snv.zul"
+							/>
+							<button
+								class="noborder"
+								label="CNV: Copy number variation (CNVs) detection"
+								href="/experiments/create-experiment-cnv.zul"
+							/>
+							<button
+								class="noborder"
+								label="Methylation"
+								href="/experiments/create-experiment-chipseq.zul"
+							/>
+							<button
+								class="noborder"
+								label="ChipSeq"								
+								href="/experiments/create-experiment-methylation.zul"
+							/>
+						</vbox>
+					</vlayout>
+						
+					</groupbox>
+				</center>
+			</borderlayout>
+		</center>	
+		<south border="none">
+			<include src="/layout/footer.zul"/>
+		</south>
+	</borderlayout>
+</zk>

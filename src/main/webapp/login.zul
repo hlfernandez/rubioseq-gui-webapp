@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?page title="RUbioSeq-GUI - Login" contentType="text/html;charset=UTF-8"?>
+<?link rel="stylesheet" type="text/css" href="/css/style.css"?>
+<?link rel="stylesheet" type="text/css" href="/css/login.css"?>
+<?link rel="shortcut icon" href="/favicon.ico"?>
+
+<!--
+	This file is part of RUbioSeq-GUI.
+
+	RUbioSeq-GUI is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	RUbioSeq-GUI is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with RUbioSeq-GUI.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<zk xmlns:w="http://www.zkoss.org/2005/zk/client">
+	<div id="container" sclass="container" align="center">
+		<div id="content" sclass="content">
+			<window id="main" border="none"
+				contentSclass="mainWindowContent" width="960px" height="450px">
+				<div sclass="header-login">
+					<vlayout>
+						<hbox hflex="true" align="bottom">
+							<vlayout>
+								<separator height="5px" />
+								<image src="/imgs/rubioseq.png"
+									sclass="header-rubioseq-logo" />
+							</vlayout>
+							<label
+								value="An automatic and parallelized suite pipelines to speed up your NGS data analysis"
+								sclass="header-rubioseq-label" />
+						</hbox>
+					</vlayout>
+				</div>
+
+				<div id="welcome" align="left">
+					<vlayout apply="org.zkoss.bind.BindComposer"
+						viewModel="@id('user') @init('es.uvigo.ei.sing.rubioseq.gui.view.models.UserViewModel')">
+
+						<div class="welcome-left">
+							<separator height="20px" />
+							<label value="Welcome to RUbioSeq!"
+								hflex="true" sclass="welcome-label" />
+
+							<html>
+								
+								<![CDATA[ <br/> <p
+								align="justify">RUbioSeq is a software
+								suite to perform NGS data analysis in a
+								automatic, paralellized and reliable way
+								which is crucial to eliminate manual
+								steps and to speed up result generation.
+								RUbioSeq provides pipelines using
+								state-of-art tools for: <ol> <li>Single
+								nucleotide variant (SNVs) calling </li>
+								<li>Copy number variation (CNVs)
+								detection. </li> <li>Bisulfite-seq
+								(BS-seq) data analysis.</li>
+								<li>Chip-Seq experiments.</li> </ol>
+
+								More info at <a
+								href="http://rubioseq.sourceforge.net/"
+								target="_blank">http://rubioseq.sourceforge.net/</a>
+								</p> ]]>
+								
+							</html>
+
+						</div>
+
+						<div sclass="welcome-right">
+							<div id="step1">
+								<window id="profileWin"
+									title="RUbioSeq starts here" border="normal" width="400px">
+									<hlayout valign="middle">
+										<label
+											value="Step 1. Select your option:"
+											sclass="login-window-label" />
+										<image
+											src="/imgs/questionmarkbutton-16x16.png"
+											tooltip="stepTooltip" style="cursor: help" />
+									</hlayout>
+									<separator height="10px" />
+									<div id="profile" align="center">
+										<vbox align="center">
+											<button label="Run"
+												width="300px" height="130px" sclass="login-window-button"
+												onClick="@command('userProfile')" />
+											<button
+												label="Administrator" width="300px" height="70px"
+												sclass="login-window-button"
+												onClick="@command('adminProfile')" />
+										</vbox>
+									</div>
+								</window>
+							</div>
+						</div>
+
+						<div id="login"
+							visible="@load(user.showLogin)">
+							<window id="loginWin"
+								title="@load(user.loginWindowTitle)" border="normal"
+								width="300px" mode="modal" visible="@load(user.showLogin)">
+								<vbox hflex="1" align="center">
+									<grid hflex="1">
+										<columns>
+											<column hflex="min"
+												align="right" />
+											<column />
+										</columns>
+										<rows>
+											<row
+												visible="@load(not user.adminLogin)">
+												Account :
+												<textbox id="account"
+													value="@bind(user.loginUserName)" hflex="1" />
+											</row>
+											<row>
+												Password :
+												<textbox id="password"
+													type="password" value="@bind(user.loginPassword)"
+													hflex="1" />
+											</row>
+										</rows>
+									</grid>
+									<hlayout>
+										<button id="login" label="Login"
+											onClick="@command('checkLogin')" />
+										<button id="newAccount"
+											label="New Account" visible="@load(not user.adminLogin)"
+											onClick="@command('showNewAccount')" />
+										<button id="cancelLogin"
+											label="Cancel" onClick="@command('cancelLogin')" />
+									</hlayout>
+								</vbox>
+							</window>
+						</div>
+						<!-- End login window -->
+
+						<div id="newAccount"
+							visible="@load(user.showNewAccount)">
+							<window id="windowNewAccount"
+								title="Create account" border="normal" width="300px"
+								mode="modal" visible="@load(user.showNewAccount)">
+								<vbox hflex="1" align="center">
+									<vlayout>
+										<grid hflex="1">
+											<columns>
+												<column hflex="min"
+													align="right" />
+												<column />
+											</columns>
+											<rows>
+												<row>
+													Username :
+													<textbox
+														id="singUpUsername" value="@bind(user.singUpUsername)"
+														hflex="1" />
+												</row>
+												<row>
+													Email :
+													<textbox
+														id="singUpEmail"
+														value="@bind(user.singUpEmail) @validator('email')"
+														hflex="1" />
+												</row>
+												<row>
+													Password :
+													<textbox
+														id="singUpPassword" type="password"
+														value="@bind(user.singUpPassword) @validator('password')"
+														hflex="1" />
+												</row>
+												<row>
+													Repeat Password :
+													<textbox
+														type="password" value="@bind(user.singUpRepeatPassword)"
+														hflex="1">
+														<attribute name="onChange"><![CDATA[
+															if (!self.getValue().equals(singUpPassword.getValue())) {
+																Clients.showNotification(
+																		"Password are different. Please, introduce the same password in both fields.",
+																		Clients.NOTIFICATION_TYPE_ERROR, self, "end_center", 0);
+															}
+														]]></attribute>
+													</textbox>
+												</row>
+											</rows>
+										</grid>
+										<hlayout>
+											<button id="login"
+												label="Sing Up" onClick="@command('singUp')"
+												disabled="@load(not user.singUpOk)" />
+											<button
+												id="cancelNewAccount" label="Cancel"
+												onClick="@command('cancelNewAccount')" />
+										</hlayout>
+									</vlayout>
+								</vbox>
+							</window>
+						</div>
+						<!-- End newAccount window -->
+					</vlayout>
+				</div>
+			</window>
+		</div>
+		<div sclass="footer-separator">
+			<include src="/layout/footer.zul" />
+		</div>
+	</div>
+
+
+	<popup id="stepTooltip" width="300px">
+		<html>
+			<![CDATA[ Choose your profile: administrator or user. ]]>
+		</html>
+	</popup>
+</zk>

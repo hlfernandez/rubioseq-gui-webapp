@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?page title="RUbioSeq-GUI - Edit experiment" contentType="text/html;charset=UTF-8"?>
+<?link rel="stylesheet" type="text/css" href="/css/style.css"?>
+<?link rel="shortcut icon" href="/favicon.ico"?>
+<?component name="filechooser" macroURI="/WEB-INF/macros/filechooser.zul" class="es.uvigo.ei.sing.rubioseq.gui.macros.FileChooser"?>
+
+<!--
+	This file is part of RUbioSeq-GUI.
+
+	RUbioSeq-GUI is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	RUbioSeq-GUI is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with RUbioSeq-GUI.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<zk>
+	<div id="container" sclass="container" align="center">
+		<include src="/layout/header.zul"/>
+		<div id="content" sclass="content">
+			<window 
+					id="main"
+					border="none" 
+					contentSclass="mainWindowContent"
+					width="960px" 
+					height="300px">
+				<borderlayout hflex="1" vflex="1">
+					<north border="none" >
+						<include src="/layout/menu-user.zul"/>
+					</north>
+					<center id="mainContent" autoscroll="true" border="none">
+					<window vflex="1">
+						<groupbox mold="3d" hflex="true" vflex="true" closable="false"
+						 apply="org.zkoss.bind.BindComposer"
+							viewModel="@id('vm') @init('es.uvigo.ei.sing.rubioseq.gui.view.models.EditExperimentModel')">
+							<caption label="Experiments editing" image="/imgs/icons/edit-experiment-22.png">
+							</caption>
+							<separator height="30px"/>
+							<hbox vflex="1" hflex="1" pack="center" spacing="20px">
+							<window 
+								id="experimentWin"
+								title="Experiment selection" 
+								border="normal"
+								
+								width="600px">
+								<vbox>
+									<grid hflex="1">
+										<columns>
+											<column hflex="min" align="right" />
+											<column />
+										</columns>
+										<rows>
+											<row>
+												<label value="Configuration file"/>
+												<filechooser path="@bind(vm.configFile)" type="input" sclass="@bind(vm.configurationFileLabelClass)"/>
+											</row>
+											<row visible="@bind(vm.experimentTypeRowVisible)">
+												<label value="Experiment type"/>
+												<label value="@bind(vm.experimentType)"/>
+											</row>
+										</rows>
+									</grid>
+									<vbox hflex="1" align="center">
+										<button 
+											label="Edit Experiment" 
+											onClick="@command('editExperiment')"
+											disabled="@load(not vm.editExperimentEnabled)"
+											image="/imgs/icons/edit-experiment-22.png"
+											height="35px"
+											sclass="@load(vm.editButtonClass)"
+										/>
+									</vbox>	
+								</vbox>
+							</window>
+							</hbox>
+						</groupbox>
+						</window>
+					</center>
+				</borderlayout>
+			</window>
+		</div>	
+		<include src="/layout/footer.zul"/>
+	</div>
+</zk>

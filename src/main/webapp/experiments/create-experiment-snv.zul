@@ -1,0 +1,907 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?page title="RUbioSeq-GUI - Create SNV experiment" contentType="text/html;charset=UTF-8"?>
+<?link rel="stylesheet" type="text/css" href="/css/style.css"?>
+<?link rel="shortcut icon" href="/favicon.ico"?>
+<?component name="filechooser" macroURI="/WEB-INF/macros/filechooser.zul" class="es.uvigo.ei.sing.rubioseq.gui.macros.FileChooser"?>
+
+<!--
+	This file is part of RUbioSeq-GUI.
+
+	RUbioSeq-GUI is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	RUbioSeq-GUI is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with RUbioSeq-GUI.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<zk xmlns:w="http://www.zkoss.org/2005/zk/client">
+	<div id="container" sclass="container" align="center">
+		<include src="/layout/header.zul"/>
+		<div id="content" sclass="content">
+			<window
+					id="main"
+					border="none" 
+					contentSclass="mainWindowContent"
+					width="960px" 
+					height="790px">
+				<borderlayout hflex="1" vflex="1">
+					<north border="none" >
+						<include src="/layout/menu-user.zul"/>
+					</north>
+					<center id="mainContent" autoscroll="true" border="none">
+						<groupbox 
+							mold="3d" 
+							closable="false"
+						 	apply="org.zkoss.bind.BindComposer"
+							viewModel="@id('vm') @init('es.uvigo.ei.sing.rubioseq.gui.view.models.experiments.SingleNucleotideVariantExperimentModel')"
+							vflex="1"
+						>
+									<window 
+										id="outputfilechooser" 
+										title="Output file" 
+										border="normal" 
+										visible="@load(vm.selectOutputFile)" 
+										mode="modal"
+										width="450px">
+										<hbox>
+											<label value="Destintion folder: "/> <filechooser path="@bind(vm.outputFilePath)" type="output"/>
+										</hbox>
+										<hbox>
+											<label value="Filename: "/><textbox value="@bind(vm.outputFileName)"/>
+										</hbox>
+										<vlayout>        
+			    						    <vbox hflex="1" align="center">
+												<hlayout>
+													<button label="Save" onClick="@command('generateXMLConfigurationFile')" image="/imgs/icons/save-16.png"/>
+													<button label="Cancel" onClick="@command('cancelSelectOutputFile')" image="/imgs/icons/cancel-16.png"/>
+												</hlayout>
+											</vbox>
+										</vlayout>										
+									</window>
+													
+									<window 
+										id="sampleeditor" 
+										title="Sample Editor" 
+										border="normal" 
+										visible="@load(vm.currentSample ne null)" 
+										mode="modal">
+										<grid width="450px">
+								    	    <columns>
+		            							<column label="Option" width="140px" />
+		            							<column label="Input" />
+		        							</columns>
+		        							<rows>
+		        								<row>
+								        			<hlayout>
+									             	SampleName:
+									             	<separator orient="vertical" spacing="3px" />
+									             	<image
+										             	src="/imgs/questionmarkbutton-16x16.png"
+									              		tooltip="sampleName" style="cursor: help" />
+								            		</hlayout>
+							              			<textbox hflex="1" 
+														value="@load(vm.currentSample.sampleName) @save(vm.currentTmpSample.sampleName) @save(vm.currentSample.sampleName, before='saveSample')"
+														onOK="@command('saveSample')">
+													</textbox>  
+												</row>
+		        								<row>
+								        			<hlayout>
+									             	sampleFiles:
+									             	<separator orient="vertical" spacing="3px" />
+									             	<image
+										             	src="/imgs/questionmarkbutton-16x16.png"
+									              		tooltip="sampleFiles" style="cursor: help" />
+								            		</hlayout>
+							              			<textbox hflex="1" 
+														value="@load(vm.currentSample.sampleFiles) @save(vm.currentTmpSample.sampleFiles) @save(vm.currentSample.sampleFiles, before='saveSample')"
+														onOK="@command('saveSample')">
+													</textbox>  
+												</row>
+		        								<row>
+								        			<hlayout>
+									             	sampleSuffix:
+									             	<separator orient="vertical" spacing="3px" />
+									             	<image
+										             	src="/imgs/questionmarkbutton-16x16.png"
+									              		tooltip="sampleSuffix" style="cursor: help" />
+								            		</hlayout>
+							              			<textbox hflex="1" 
+														value="@load(vm.currentSample.sampleSuffix) @save(vm.currentTmpSample.sampleSuffix) @save(vm.currentSample.sampleSuffix, before='saveSample')"
+														onOK="@command('saveSample')">
+													</textbox>  
+												</row>
+		        								<row>
+								        			<hlayout>
+									             	sampleType:
+									             	<separator orient="vertical" spacing="3px" />
+									             	<image
+										             	src="/imgs/questionmarkbutton-16x16.png"
+									              		tooltip="sampleType" style="cursor: help" />
+								            		</hlayout>
+													<radiogroup hflex="1" 
+														model="@load(vm.currentSample.sampleTypes)"
+														selectedItem="@load(vm.currentSample.sampleType) @save(vm.currentTmpSample.sampleType) @save(vm.currentSample.sampleType, before='saveSample')"
+														onOK="@command('saveSample')">
+													</radiogroup>   
+												</row>
+		        							</rows>
+		        						</grid>	
+										<vlayout>        
+			    						    <vbox hflex="1" align="center">
+												<hlayout>
+													<button label="Save Sample" disabled="@load(not vm.enabledSaveSampleButton)" onClick="@command('saveSample')" image="/imgs/icons/ok-16.png"></button>
+													<button label="Cancel" onClick="@command('cancelEdit')" image="/imgs/icons/cancel-16.png"></button>
+												</hlayout>
+											</vbox>
+										</vlayout>
+								</window>
+								<window 
+									id="hfiltereditor" 
+									title="Hard Filter Editor" 
+									border="normal" 
+									visible="@load(vm.currentHFilter ne null)" 
+									mode="modal">
+									<grid width="450px">
+							    	    <columns>
+	            							<column label="Option" width="140px" />
+	            							<column label="Input" />
+	        							</columns>
+	        							<rows>
+	        								<row>
+								             	Name:
+						              			<textbox hflex="1" 
+													value="@load(vm.currentHFilter.name) @save(vm.currentTmpHFilter.name) @save(vm.currentHFilter.name, before='saveHardFilter')"
+													onOK="@command('saveHardFilter')">
+												</textbox>  
+											</row>
+	        								<row>
+								             	Rule:
+						              			<textbox hflex="1" 
+													value="@load(vm.currentHFilter.rule) @save(vm.currentTmpHFilter.rule) @save(vm.currentHFilter.rule, before='saveHardFilter')"
+													onOK="@command('saveHardFilter')">
+												</textbox>  
+											</row>
+	        								<row>
+								             	Type:
+								             	<radiogroup hflex="1" 
+													model="@load(vm.currentHFilter.hFilterTypes)"
+													selectedItem="@load(vm.currentHFilter.type) @save(vm.currentTmpHFilter.type) @save(vm.currentHFilter.type, before='saveHardFilter')"
+													onOK="@command('saveHardFilter')">
+												</radiogroup>
+											</row>
+	        							</rows>
+	        						</grid>	
+										
+									<vlayout>	
+		    						    <vbox hflex="1" align="center">
+											<hlayout>
+												<button label="Save Hard Filter" disabled="@load(not vm.enabledSaveHardFilterButton)" onClick="@command('saveHardFilter')" image="/imgs/icons/ok-16.png"></button>
+												<button label="Cancel" onClick="@command('cancelEditHardFilter')" image="/imgs/icons/cancel-16.png"></button>
+											</hlayout>
+										</vbox>
+									</vlayout>
+							</window>
+							
+							<window 
+									id="knownindelseditor" 
+									title="KnownIndels Editor" 
+									border="normal" 
+									visible="@load(vm.currentKnownIndels ne null)"
+									width="450px" 
+									mode="modal">
+									<hbox>
+										<label value="File:"/>
+										<filechooser path="@load(vm.currentKnownIndels.file) @save(vm.currentTmpKnownIndels.file) @save(vm.currentKnownIndels.file, before='saveKnownIndels')" type="input"/> 
+									</hbox>	
+										
+									<vlayout>	
+		    						    <vbox hflex="1" align="center">
+											<hlayout>
+												<button label="Save Known Indels" disabled="@load(not vm.enabledSaveKnownIndelsButton)" onClick="@command('saveKnownIndels')" image="/imgs/icons/ok-16.png"></button>
+												<button label="Cancel" onClick="@command('cancelEditKnownIndels')" image="/imgs/icons/cancel-16.png"></button>
+											</hlayout>
+										</vbox>
+									</vlayout>
+							</window>
+							
+							<caption label="SNV: Single nucleotide variant (SNVs) calling" image="/imgs/icons/new-experiment-22.png">
+								<button 
+									label="Export" 
+									onClick="@command('selectOutputFile')"
+									disabled="@load(not vm.enabledExportButton)"
+									image="/imgs/icons/export-22.png"
+									sclass="@load(vm.exportButtonClass)"
+									height="35px"
+								/>
+								<button 
+									label="Execute"
+									onClick="@command('saveBeforeExecuteExperiment')"
+									disabled="@load(not vm.enabledExportButton)"
+									image="/imgs/icons/run-experiment-22.png"
+									sclass="@load(vm.exportButtonClass)"
+									height="35px"
+								/>
+							</caption>
+							<tabbox vflex="1">
+							    <tabs>
+							        <tab label="Mandatory parameters" />
+							        <tab label="Optional parameters" />
+							    </tabs>
+							    <tabpanels >
+							        <tabpanel
+							        	id="tb_mandatory" 
+							        	height="@bind(vm.mandatoryHeight)"
+							        	style="overflow:auto;"
+							        >
+										<vlayout>
+										<grid hflex="1">
+											<columns>
+												<column label="Parameter" width="160px" />
+												<column label="Value" />
+											</columns>
+											<rows>
+												<row>
+										        	<hlayout>
+											             GenRef
+											             <separator
+											              	orient="vertical" spacing="3px" />
+											             <image
+											             	src="/imgs/questionmarkbutton-16x16.png"
+											              	tooltip="GenRef" style="cursor: help" />
+										            </hlayout>
+													<filechooser path="@bind(vm.experiment.genRefPath)" type="input"/>
+												</row>
+												<row>
+										        	<hlayout>
+											             DbSnpAnnot
+											             <separator
+											              	orient="vertical" spacing="3px" />
+											             <image
+											             	src="/imgs/questionmarkbutton-16x16.png"
+											              	tooltip="DbSnpAnnot" style="cursor: help" />
+										            </hlayout>
+										            <filechooser path="@bind(vm.experiment.dbSnpAnnotPath)" type="input"/>
+												</row>
+												<row>
+										        	<hlayout>
+											             Genomes1000Annot
+											             <separator
+											              	orient="vertical" spacing="3px" />
+											             <image
+											             	src="/imgs/questionmarkbutton-16x16.png"
+											              	tooltip="Genomes1000Annot" style="cursor: help" />
+										            </hlayout>
+										            <filechooser path="@bind(vm.experiment.genomes1000AnnotPath)" type="input"/>
+												</row>
+												<row>
+										        	<hlayout>
+											             IndelAnnot
+											             <separator
+											              	orient="vertical" spacing="3px" />
+											             <image
+											             	src="/imgs/questionmarkbutton-16x16.png"
+											              	tooltip="IndelAnnot" style="cursor: help" />
+										            </hlayout>
+										            <filechooser path="@bind(vm.experiment.indelAnnotPath)" type="input"/>
+												</row>
+												<row>
+										        	<hlayout>
+											             Platform
+											             <separator
+											              	orient="vertical" spacing="3px" />
+											             <image
+											             	src="/imgs/questionmarkbutton-16x16.png"
+											              	tooltip="Pattform" style="cursor: help" />
+										            </hlayout>
+									              	<radiogroup 
+									              		hflex="1" 
+									              		selectedItem="@bind(vm.experiment.plattform)"
+									              		model="@load(vm.experiment.plattformValues)"
+									              	/>
+												</row>
+												<row>
+										        	<hlayout>
+											             dirOutBase
+											             <separator
+											              	orient="vertical" spacing="3px" />
+											             <image
+											             	src="/imgs/questionmarkbutton-16x16.png"
+											              	tooltip="dirOutBase" style="cursor: help" />
+										            </hlayout>
+										            <filechooser path="@bind(vm.experiment.dirOutBase)" type="output"/>
+												</row>
+												<row>
+										        	<hlayout>
+											             ProjectId
+											             <separator
+											              	orient="vertical" spacing="3px" />
+											             <image
+											             	src="/imgs/questionmarkbutton-16x16.png"
+											              	tooltip="ProjectId" style="cursor: help" />
+										            </hlayout>
+									              	<textbox hflex="1" value="@bind(vm.experiment.projectId)">
+													</textbox>
+												</row>
+												<row>
+										        	<hlayout>
+											             dataInDirpreProcess
+											             <separator
+											              	orient="vertical" spacing="3px" />
+											             <image
+											             	src="/imgs/questionmarkbutton-16x16.png"
+											              	tooltip="dataInDirpreProcess" style="cursor: help" />
+										            </hlayout>
+										            <filechooser path="@bind(vm.experiment.dataInDirpreProcess)" type="input"/>
+												</row>
+											</rows>
+										</grid>
+										<hlayout>								
+											<button label="Add sample" onClick="@command('addSample')" image="/imgs/icons/add-16.png" sclass="actionButton"/>
+											<image
+										    	src="/imgs/questionmarkbutton-16x16.png"
+									            tooltip="sampleDescription" style="cursor: help"
+									           />
+										</hlayout>
+										<grid id="samplesgrid" model="@bind(vm.samples)" 
+											emptyMessage="Any sample has been added yet. You have to add at least one sample.">
+										    <columns>
+										        <column label="sampleName" sort="auto"/>
+										        <column label="sampleFiles"/>
+										        <column label="sampleSuffix"/>
+										        <column label="sampleType"/>
+										        <column label="Action" width="100px"/>
+										    </columns>
+											    <template name="model" var="sample">
+											        <row onCreate="tb_mandatory.invalidate();">
+											            <label value="@bind(sample.sampleName)"/>
+											            <label value="@bind(sample.sampleFiles)" />
+											            <label value="@bind(sample.sampleSuffix)"/>
+											            <label value="@bind(sample.sampleType)"/>
+											            <hbox>
+															<button tooltiptext="Delete this sample" onClick="@command('deleteSample', sample=sample)" image="/imgs/icons/delete-16.png"></button>
+															<button tooltiptext="Edit this sample" onClick="@command('editSample', sample=sample)" image="/imgs/icons/edit-16.png"></button>
+											            </hbox>
+											        </row>
+											    </template>
+										</grid>
+										</vlayout>
+							        </tabpanel>
+							        <tabpanel
+							        	id="tb_optional"
+							        	height="@bind(vm.optionalHeight)"
+										style="overflow:auto;"
+							        >
+							        	<vlayout>
+										<grid hflex="1">
+											<columns>
+												<column label="Parameter" width="160px"/>
+												<column label="Value"/>
+												<column label="Actions" hflex="min"/>
+											</columns>
+											<rows>
+												<row>
+										        	<hlayout>
+											             Intervals
+											             <separator
+											              	orient="vertical" spacing="3px" />
+											             <image
+											             	src="/imgs/questionmarkbutton-16x16.png"
+											              	tooltip="Intervals" style="cursor: help" />
+										            </hlayout>
+									              	<filechooser path="@bind(vm.experiment.intervalsPath)" type="input"/>
+													<button tooltiptext="Restore default" onClick="@command('restoreIntervalsPath')" image="/imgs/icons/default-16.png"/>
+												</row>
+												<row>
+										        	<hlayout>
+											             KnownIndels
+											             <separator
+											              	orient="vertical" spacing="3px" />
+											             <image
+											             	src="/imgs/questionmarkbutton-16x16.png"
+											              	tooltip="KnownIndels" style="cursor: help" />
+										            </hlayout>
+										            <vlayout>
+									              	<button label="Add Known Indels" onClick="@command('addKnownIndels')" image="/imgs/icons/add-16.png"></button>
+														<grid model="@bind(vm.knownIndels)" visible="@load(vm.knownIndelsGridVisible)">
+														    <columns>
+														        <column label="File" sort="auto" />
+														        <column label="Action" width="100px"/>
+														    </columns>
+														    <rows>
+														    	<attribute w:name="removeChild">
+														    		   function (value) {
+															    		   	this.$f('tb_optional', true).rerender(0);
+														    		   }
+														    	</attribute>
+															    <template name="model" var="knownIndels">
+															        <row onCreate="tb_optional.invalidate();">
+															             <label value="@bind(knownIndels.file.absolutePathWithDatastoreName)"/>
+															            <hbox>
+																			<button tooltiptext="Delete this KnwonIndel" onClick="@command('deleteKnownIndels', knownIndels=knownIndels)" image="/imgs/icons/delete-16.png"></button>
+																			<button tooltiptext="Edit this KnwonIndel" onClick="@command('editKnownIndels', knownIndels=knownIndels)" image="/imgs/icons/edit-16.png"></button>
+															            </hbox>
+															        </row>
+															    </template>
+														    </rows>
+														</grid>
+													</vlayout>	
+													<button tooltiptext="Restore default" onClick="@command('restoreKnownIndels')" image="/imgs/icons/default-16.png"/>
+												</row>
+												<row>
+										        	<hlayout>
+											             checkCasava
+											             <separator
+											              	orient="vertical" spacing="3px" />
+											             <image
+											             	src="/imgs/questionmarkbutton-16x16.png"
+											              	tooltip="checkCasava" style="cursor: help" />
+										            </hlayout>
+									              	<radiogroup
+									              		model="@load(vm.experiment.casavaValues)" 
+									              		hflex="1" selectedItem="@bind(vm.experiment.checkCasava)">
+													</radiogroup>
+													<button tooltiptext="Restore default" onClick="@command('restoreCheckCasava')" image="/imgs/icons/default-16.png"/>
+												</row>
+												<row>
+										        	<hlayout>
+											             UserName
+											             <separator
+											              	orient="vertical" spacing="3px" />
+											             <image
+											             	src="/imgs/questionmarkbutton-16x16.png"
+											              	tooltip="UserName" style="cursor: help" />
+										            </hlayout>
+									              	<textbox hflex="1" value="@bind(vm.experiment.userName)">
+													</textbox>
+													<button tooltiptext="Restore default" onClick="@command('restoreUserName')" image="/imgs/icons/default-16.png" />
+												</row>
+												<row>
+										        	<hlayout>
+											            CallingType
+											             <separator
+											              	orient="vertical" spacing="3px" />
+											             <image
+											             	src="/imgs/questionmarkbutton-16x16.png"
+											              	tooltip="CallingType" style="cursor: help" />
+										            </hlayout>
+									              	<radiogroup hflex="1"
+									              		model="@load(vm.experiment.callingTypes)" 
+									              		selectedItem="@bind(vm.experiment.callingType)">
+													</radiogroup>
+													<button tooltiptext="Restore default" onClick="@command('restoreCallingType')" image="/imgs/icons/default-16.png"/>
+												</row>
+												<row>
+										        	<hlayout>
+											            GATKoutputMode
+											             <separator
+											              	orient="vertical" spacing="3px" />
+											             <image
+											             	src="/imgs/questionmarkbutton-16x16.png"
+											              	tooltip="GATKoutputMode" style="cursor: help" />
+										            </hlayout>
+									              	<radiogroup hflex="1"
+									              		model="@load(vm.experiment.gatkOutputModes)" 
+									              		selectedItem="@bind(vm.experiment.gATKoutputMode)">
+													</radiogroup>
+													<button tooltiptext="Restore default" onClick="@command('restoreGATKoutputMode')" image="/imgs/icons/default-16.png"/>
+												</row>
+												<row>
+										        	<hlayout>
+											             rsFilter
+											             <separator
+											              	orient="vertical" spacing="3px" />
+											             <image
+											             	src="/imgs/questionmarkbutton-16x16.png"
+											              	tooltip="rsFilter" style="cursor: help" />
+										            </hlayout>
+									              	<radiogroup
+									              		model="@load(vm.experiment.rsFilterValues)" 
+									              		hflex="1" selectedItem="@bind(vm.experiment.rsFilter)">
+													</radiogroup>
+													<button tooltiptext="Restore default" onClick="@command('restoreRsFilter')" image="/imgs/icons/default-16.png"/>
+												</row>
+												<row>
+										        	<hlayout>
+											             RUbioSeq_Mode
+											             <separator
+											              	orient="vertical" spacing="3px" />
+											             <image
+											             	src="/imgs/questionmarkbutton-16x16.png"
+											              	tooltip="RUbioSeq_Mode" style="cursor: help" />
+										            </hlayout>
+									              	<radiogroup
+									              		model="@load(vm.experiment.rubioSeqModeValues)" 
+									              		hflex="1" selectedItem="@bind(vm.experiment.rUbioSeqMode)">
+													</radiogroup>
+													<button tooltiptext="Restore default" onClick="@command('restoreRUbioSeqMode')" image="/imgs/icons/default-16.png"/>
+												</row>
+												<row>
+										        	<hlayout>
+											             fastqc
+											             <separator
+											              	orient="vertical" spacing="3px" />
+											             <image
+											             	src="/imgs/questionmarkbutton-16x16.png"
+											              	tooltip="fastqc" style="cursor: help" />
+										            </hlayout>
+									              	<radiogroup
+									              		model="@load(vm.experiment.fastqcValues)" 
+									              		hflex="1" selectedItem="@bind(vm.experiment.fastqc)">
+													</radiogroup>
+													<button tooltiptext="Restore default" onClick="@command('restoreFastqc')" image="/imgs/icons/default-16.png"/>
+												</row>
+												<row>
+										        	<hlayout>
+											             VEPFlag
+											             <separator
+											              	orient="vertical" spacing="3px" />
+											             <image
+											             	src="/imgs/questionmarkbutton-16x16.png"
+											              	tooltip="VEPFlag" style="cursor: help" />
+										            </hlayout>
+									              	<radiogroup
+									              		model="@load(vm.experiment.vepFlagValues)" 
+									              		hflex="1" selectedItem="@bind(vm.experiment.vEPFlag)">
+													</radiogroup>
+													<button tooltiptext="Restore default" onClick="@command('restoreVEPFlag')" image="/imgs/icons/default-16.png"/>
+												</row>
+												<row>
+										        	<hlayout>
+											             TCFlag
+											             <separator
+											              	orient="vertical" spacing="3px" />
+											             <image
+											             	src="/imgs/questionmarkbutton-16x16.png"
+											              	tooltip="TCFlag" style="cursor: help" />
+										            </hlayout>
+									              	<radiogroup
+									              		model="@load(vm.experiment.tcFlagValues)" 
+									              		hflex="1" selectedItem="@bind(vm.experiment.tCFlag)">
+													</radiogroup>
+													<button tooltiptext="Restore default" onClick="@command('restoreTCFlag')" image="/imgs/icons/default-16.png"/>
+												</row>
+												<row>
+										        	<hlayout>
+											             MDFlag
+											             <separator
+											              	orient="vertical" spacing="3px" />
+											             <image
+											             	src="/imgs/questionmarkbutton-16x16.png"
+											              	tooltip="MDFlag" style="cursor: help" />
+										            </hlayout>
+									              	<radiogroup
+									              		model="@load(vm.experiment.mdFlagValues)" 
+									              		hflex="1" selectedItem="@bind(vm.experiment.mDFlag)">
+													</radiogroup>
+													<button tooltiptext="Restore default" onClick="@command('restoreMDFlag')" image="/imgs/icons/default-16.png"/>
+												</row>
+												<row>
+										        	<hlayout>
+											             standCallConf
+											             <separator
+											              	orient="vertical" spacing="3px" />
+											             <image
+											             	src="/imgs/questionmarkbutton-16x16.png"
+											              	tooltip="standCallConf" style="cursor: help" />
+										            </hlayout>
+										            <spinner hflex="1" value="@bind(vm.experiment.standCallConf)"/>
+													<button tooltiptext="Restore default" onClick="@command('restoreStandCallConf')" image="/imgs/icons/default-16.png"/>
+												</row>
+												<row>
+										        	<hlayout>
+											             standEmitConf
+											             <separator
+											              	orient="vertical" spacing="3px" />
+											             <image
+											             	src="/imgs/questionmarkbutton-16x16.png"
+											              	tooltip="standEmitConf" style="cursor: help" />
+										            </hlayout>
+										            <spinner hflex="1" value="@bind(vm.experiment.standEmitConf)"/>
+													<button tooltiptext="Restore default" onClick="@command('restoreStandEmitConf')" image="/imgs/icons/default-16.png"/>
+												</row>
+												<row>
+										        	<hlayout>
+											             queueSGEProject
+											             <separator
+											              	orient="vertical" spacing="3px" />
+											             <image
+											             	src="/imgs/questionmarkbutton-16x16.png"
+											              	tooltip="queueSGEProject" style="cursor: help" />
+										            </hlayout>
+									              	<textbox hflex="1" value="@bind(vm.experiment.queueSGEProject)">
+													</textbox>
+													<button tooltiptext="Restore default" onClick="@command('restorequeueSGEProject')" image="/imgs/icons/default-16.png"/>
+												</row>
+												<row>
+										        	<hlayout>
+											             VQRS/HardFilters
+											             <separator
+											              	orient="vertical" spacing="3px" />
+											             <image
+											             	src="/imgs/questionmarkbutton-16x16.png"
+											              	tooltip="choice" style="cursor: help" />
+										            </hlayout>
+									              	<radiogroup
+									              		model="@load(vm.experiment.vqrsHardFiltersChoices)" 
+									              		hflex="1" selectedItem="@bind(vm.experiment.choiceVqrsHardFilters)">
+													</radiogroup>
+													<button tooltiptext="Restore default" onClick="@command('restoreTCFlag')" image="/imgs/icons/default-16.png"/>
+												</row>												
+												<row visible="@load(vm.vqrsRowVisible)">
+										        	<hlayout>
+											             VQSR block
+											             <separator
+											              	orient="vertical" spacing="3px" />
+											             <image
+											             	src="/imgs/questionmarkbutton-16x16.png"
+											              	tooltip="VQSRblock" style="cursor: help" />
+										            </hlayout>
+										            <vlayout>
+										            	<hlayout>
+														<label value="Mills: "/>
+														<filechooser path="@bind(vm.experiment.vQSRblockMills)" type="input"/>
+										            	</hlayout>
+										            	<hlayout>
+														<label value="HapMap: "/>
+														<filechooser path="@bind(vm.experiment.vQSRblockHapMAp)" type="input"/>
+										            	</hlayout>
+										            	<hlayout>
+														<label value="ThousandG: "/>
+														<filechooser path="@bind(vm.experiment.vQSRblockThousandG)" type="input"/>
+										            	</hlayout>
+										            </vlayout>
+													<button tooltiptext="Restore default" onClick="@command('restoreVQSRBlock')" image="/imgs/icons/default-16.png"/>
+												</row>
+												<row visible="@load(vm.hardFiltersRowVisible)">
+										        	<hlayout>
+											             Hard filters
+											             <separator
+											              	orient="vertical" spacing="3px" />
+											             <image
+											             	src="/imgs/questionmarkbutton-16x16.png"
+											              	tooltip="HardFilters" style="cursor: help" />
+										            </hlayout>
+										            <vbox>
+										            	<hbox>
+															<label value="DPmin"/>
+															<spinner hflex="1" value="@bind(vm.experiment.dPmin)" constraint="min 0"/>
+															<separator width="10px"/>						            
+															<label value="minQual"/>
+															<spinner hflex="1" value="@bind(vm.experiment.minQual)" constraint="min 0"/>
+														</hbox>
+														<button label="Add Hard Filter" onClick="@command('addHardFilter')" image="/imgs/icons/add-16.png"></button>
+														<grid model="@bind(vm.hardFilters)" visible="@load(vm.hardFiltersGridVisible)">
+														    <columns>
+														        <column label="Name" sort="auto" />
+														        <column label="Rule" sort="auto" />
+														        <column label="Type" sort="auto" />
+														        <column label="Action" width="100px"/>
+														    </columns>
+														   <rows>
+														    	<attribute w:name="removeChild">
+														    		   function (value) {
+															    		   	this.$f('tb_optional', true).rerender(0);
+														    		   }
+														    	</attribute>
+															    <template name="model" var="hfilter">
+															        <row onCreate="tb_optional.invalidate();" onDrop="tb_optional.invalidate();">
+															            <label value="@bind(hfilter.name)"/>
+															            <label value="@bind(hfilter.rule)" />
+															            <label value="@bind(hfilter.type)"/>
+															            <hbox>
+																			<button tooltiptext="Delete this HardFilter" onClick="@command('deleteHardFilter', hardfilter=hfilter)" image="/imgs/icons/delete-16.png"></button>
+																			<button tooltiptext="Edit this HardFilter" onClick="@command('editHardFilter', hardfilter=hfilter)" image="/imgs/icons/edit-16.png"></button>
+															            </hbox>
+															        </row>
+															    </template>
+														    </rows>
+														</grid>	
+										            </vbox>
+													<button tooltiptext="Restore default" onClick="@command('restoreHardFilters')" image="/imgs/icons/default-16.png"/>
+												</row>
+											</rows>
+										</grid>
+										</vlayout>
+							        </tabpanel>
+							    </tabpanels>
+							</tabbox>
+						</groupbox>
+					</center>
+				</borderlayout>
+			</window>
+		</div>	
+		<include src="/layout/footer.zul"/>
+	</div>
+	
+	<popup id="GenRef" width="300px">
+ 		<html><![CDATA[
+			GenRef: Mandatory. It initializes the absolute path to reference genome. Genome indexes must be located in the same directory.
+        ]]></html>
+	</popup>
+	<popup id="DbSnpAnnot" width="300px">
+ 		<html><![CDATA[
+		  DbSnpAnnot: Mandatory. It represents the absolute path to the variants annotation file (dbSNP). It must be in ROD or VCF format.
+        ]]></html>
+	</popup>
+	<popup id="Genomes1000Annot" width="300px">
+ 		<html><![CDATA[
+		Genomes1000Annot: Mandatory. It represents the absolute path to 1000 Genome project variant annotations. It must be in ROD or VCF format.
+        ]]></html>
+	</popup>
+	<popup id="IndelAnnot" width="300px">
+ 		<html><![CDATA[
+		IndelAnnot: Mandatory. It represents the absolute path to REFSEQ annotation file. It must be in ROD or VCF format.
+        ]]></html>
+	</popup>
+	<popup id="Pattform" width="300px">
+ 		<html><![CDATA[
+		Platform: Mandatory. Represents NGS technology that generates input raw data. Valid values: illumina, solid or ion.
+        ]]></html>
+	</popup>
+	<popup id="dirOutBase" width="300px">
+ 		<html><![CDATA[
+		dirOutBase: Mandatory. Absolute path to output directory.	
+        ]]></html>
+	</popup>
+	<popup id="ProjectId" width="300px">
+ 		<html><![CDATA[
+		ProjectId: Mandatory. This is the project's name, it indicates the project basename directory and it's also the prefix of all files generated in the execution. This name must be a set of alphanumeric characters, no other character will be accepted.
+        ]]></html>
+	</popup>
+	<popup id="dataInDirpreProcess" width="300px">
+ 		<html><![CDATA[
+		dataInDirpreProcess: Mandatory. It defines the absolute location of raw data directory.
+        ]]></html>
+	</popup>
+	<popup id="Intervals" width="300px">
+ 		<html><![CDATA[
+		Intervals: Optional. If exists, it represents the genomic intervals over which to operate the GATK functions, if it doesn't, the tools operated over the whole genome. File must be in BED format.
+        ]]></html>
+	</popup>
+	<popup id="KnownIndels" width="300px">
+ 		<html><![CDATA[
+		KnownIndels: Optional. It represents input VCF files with known indels. This field can appear one or more times. These files will be used in GATK realigner phase.
+        ]]></html>
+	</popup>
+	<popup id="checkCasava" width="300px">
+ 		<html><![CDATA[
+		checkCasava: Optional. Only apply on Illumina's fastq input files. Set to 0 only if fastq reads don't have standard Casava format. Reads must have ASCII33 qualities. Default value :1.
+        ]]></html>
+	</popup>
+	<popup id="UserName" width="300px">
+ 		<html><![CDATA[
+		UserName: Optional. Default value: “Undefined”. This name must be a set of alphanumeric characters, no other character will be accepted.
+        ]]></html>
+	</popup>
+	<popup id="CallingType" width="300px">
+ 		<html><![CDATA[
+		CallingType: Optional. This is the genotype likelihoods calculation model to employ in GATK functions. Values: SNP, INDEL or BOTH. Default value: BOTH.
+        ]]></html>
+	</popup>
+	<popup id="GATKoutputMode" width="300px">
+ 		<html><![CDATA[
+		GATKoutputMode: Optional. It represents the type of calls the GATK functions is going to output. Values: EMIT_VARIANTS_ONLY(default), EMIT_ALL_SITES and EMIT_ALL_CONFIDENT_SITES.
+        ]]></html>
+	</popup>
+	<popup id="rsFilter" width="300px">
+ 		<html><![CDATA[
+		rsFilter: Optional. This is a user-filter parameter to apply to the calling output file. If it is enabled (value = 1), dbSNP variants are removed from the output file, if it isn't, no filter is performed. Default: 0.
+        ]]></html>
+	</popup>
+	<popup id="RUbioSeq_Mode" width="300px">
+ 		<html><![CDATA[
+		RUbioSeq_Mode: Optional. It enables the joint multisample execution. Values: 0, standalone execution and 1, multisample execution. Default value: 0.
+        ]]></html>
+	</popup>
+	<popup id="fastqc" width="300px">
+ 		<html><![CDATA[
+		fastqc: Optional. It activates FastQC module. This module performs this analysis for all samples in the experiment configuration file. The results are stored in Quality/FastQC subdirectory. Values: 1, activates FastQC; 0, disable the option. Default value: 0.
+        ]]></html>
+	</popup>
+	<popup id="VEPFlag" width="300px">
+ 		<html><![CDATA[
+		VEPFlag: Optional. If it is enabled (value = 1), Ensembl Variant Effect Predictor (VEP) over GATK output variants, is performed. Default value: 0. This analysis is only performed when reference genome is from hg19 release and the reference filename contains the string hg19 in its name, in other case, the analysis will be automatically disabled.
+        ]]></html>
+	</popup>
+	<popup id="TCFlag" width="300px">
+ 		<html><![CDATA[
+		TCFlag: Optional. This flag enablescomparison analysis. Default: 0. Tumor/control analyses.Values: 1, enables Tumor/control.<br/>
+		Correct use of this module: number of Sample elements must be even, and they must be sorted in Tumor/Control pairs.
+        ]]></html>
+	</popup>
+	<popup id="MDFlag" width="300px">
+ 		<html><![CDATA[
+		MDFlag: Optional. Only for advanced users. This flag enables or disables the mark duplicates step.<br/>
+		Values: 1, enables Markduplicates step; 0, disables Markduplicates step. Default: 1. It is recommended to disable this step if we have an targeted resequencing of a small region( a few hundred genes).
+        ]]></html>
+	</popup>
+	<popup id="standCallConf" width="300px">
+ 		<html><![CDATA[
+		standCallConf: Optional. The minimum phred-scaled confidence threshold at which variants not at 'trigger' track sites should be called. Default: 30.0.
+        ]]></html>
+	</popup>
+	<popup id="standEmitConf" width="300px">
+ 		<html><![CDATA[
+		standEmitConf: Optional. The minimum phred-scaled confidence threshold at which variants not at 'trigger' track sites should be emitted (and filtered if less than the calling threshold). Default: 30.0.
+        ]]></html>
+	</popup>
+	<popup id="queueSGEProject" width="300px">
+ 		<html><![CDATA[
+		queueSGEProject: Optional. Only for SGE controlled systems. It represents the project name associated with the execution. This name must match with someone on the valid project names list. This list can be consulted executing the command: qconf -sprjl.
+        ]]></html>
+	</popup>
+	<popup id="choice" width="300px">
+ 		<html><![CDATA[
+		In the SNV .xml configuration file you have to choose among: use the VQSR block, use the HardFilters or not use them. Choose one option and the corresponding input row will be visible. 		               
+        ]]></html>
+	</popup>
+	<popup id="VQSRblock" width="300px">
+ 		<html><![CDATA[
+		VQSR block: Optional. It activates the VQSR step, in any other case, default Hard filter step will be applied. This parameter are composed of 3 compulsory sub-parameters that represent a list of sites for which VQSR applies a prior probability of being correct. For SNPs we use both HapMap v3.3 and the Omni chip array from the 1000 Genomes Project as training data.<br/>
+		When modeling indels with the VQSR we use a training dataset that was created at the Broad by strictly curating the (Mills, Devine, Genome Research, 2011) dataset as as well as adding in very high confidence indels from the 1000 Genomes Project.<br/>
+		Sub-parameters:<br/>
+		<ul>
+		  <li>Mills:Compulsory. It is the Mills_and_1000G_gold_standard.indels.hg19.sites.vcf file.</li>
+		  <li>HapMap: Compulsory. It isthe complete path to hapmap_3.3.hg19.sites.vcf file.</li>
+		  <li>ThousandG: Compulsory. tis the complete path to 1000G_omni2.5.hg19.sites.vcffile.</li>
+		</ul>
+        ]]></html>
+	</popup>
+	<popup id="HardFilters" width="550px">
+ 		<html><![CDATA[
+		RUbioSeq provides four parameters to configure the GATK hard filtering of the pipeline:
+		<ul>
+		  <li>
+		      DPmin and minQual: If they exist, these filters will be applied with the default GATK hard filters parameters and also with the customized hard filters.<br/>
+		      <ul>
+			  <li>DPmin: Optional. This is a user-filter parameter to apply to the calling output file. If it is enabled, value (>0) indicates the depth cutoff for the variants, if it isn't, no depth filter is performed.</li>
+			  <li>minQual: Optional. This is a user-filter parameter to applyenabled, value (>0) indicates the minimum quality cutoff forfilter is performed. to the calling output file. If it is the variants, if it isn't, no quality</li>
+		      </ul>
+		  </li>
+		  <li>
+		      HfilterName[SNP/INDEL] and HfilterRule[SNP/INDEL]: These parameters are only recommended for advanced users. If these parameters are defined in the experiment config file, RUbioSeq's default GATK filters will be overwritten with the new user hard filters.<br/>
+		      If the elements have the suffix 'SNP' the rules are applied to the SNPs variants, and if they have the suffix 'INDEL', the filters will be applied to the indels.<br/>
+		      It can be more than one pair of HfilterName[SNP/INDEL]/HfilterRule[SNP/INDEL] in the experiment configuration file.<br/>
+		      <ul>
+			  <li>HfilterNameSNP/HfilterNameINDEL: Only for advanced users. Optional. This name must be a set of alphanumeric characters, no other character will be accepted. It must be followed by HfilterRule[SNP/INDEL] parameter. It represents the hard filter name associated with its corresponding hard filter rule.</li>
+			  <li>HfilterRuleSNP/HfilterRuleINDEL: Only for advanced users. Optional. This parameter must be preceded by HfilterName[SNP/INDEL] parameter. It represents the hard filter rule associated with the previously declared hard filter name. This rule must be a JEXL expression, with the exception that '>' and '<' characters must be substituted respectively by '&gt;' and '&lt;'.</li>
+		      </ul>
+		  </li>
+		</ul>
+
+        ]]></html>
+	</popup>
+	<popup id="sampleDescription" width="300px">
+ 		<html><![CDATA[
+		Sample: Mandatory. It defines all related characteristics of a sample. There must be one per analyzed sample. It can be more than one instance of Sample in the experiment configuration file, (i.e.: one per sample).
+        ]]></html>
+	</popup>
+	<popup id="sampleName" width="300px">
+ 		<html><![CDATA[
+		SampleName: Mandatory. This name must be a set of alphanumeric characters, no other character will be accepted.
+        ]]></html>
+	</popup>
+	<popup id="sampleFiles" width="300px">
+ 		<html><![CDATA[
+		SampleFiles: Mandatory. It represents the variable part on the input data name of the raw data files or the BAM basename filename without '.bam' suffix. If the sample is splitted in several files, user can append each of them with the separator ':'.<br/>
+ 		If RUbioSeq is executed on a cluster, the aligment steps will be parallelized by SampleFile.
+        ]]></html>
+	</popup>
+	<popup id="sampleSuffix" width="300px">
+ 		<html><![CDATA[
+		SampleSuffix: Mandatory. It represents the raw data name common suffix. If the input data are BAM files, this suffix must be '.bam'. If input data are SOLiD files(*.csfasta and *_QV.qual), this suffix must be 'solid'.<br/>
+		For example: If we have two samples called s_4_sequence.txt and s_5_sequence.txt respectively, the common suffix will be '_sequence.txt'. If the sample are paired-end, raw suffix must not include the paired information (i.e. : _1/_R1 or _2/_R2 in Illumina case).
+        ]]></html>
+	</popup>
+	<popup id="sampleType" width="300px">
+ 		<html><![CDATA[
+		SampleType: Mandatory. Itrepresents reads type, single-end or paired-end. Values: 1(single-end),2(paired-end).
+        ]]></html>
+	</popup>
+</zk>

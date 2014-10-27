@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?page title="RUbioSeq-GUI - Home" contentType="text/html;charset=UTF-8"?>
+<?link rel="stylesheet" type="text/css" href="/css/style.css"?>
+<?link rel="stylesheet" type="text/css" href="/css/dashboard.css"?>
+<?link rel="shortcut icon" href="/favicon.ico"?>
+
+<!--
+	This file is part of RUbioSeq-GUI.
+
+	RUbioSeq-GUI is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	RUbioSeq-GUI is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with RUbioSeq-GUI.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<zk>
+	<div id="container" sclass="container" align="center">
+		<include src="/layout/header.zul"/>
+		<div id="content" sclass="content">
+			<window 
+					id="main"
+					border="none" 
+					contentSclass="mainWindowContent"
+					sclass="window-main"
+					width="960px" 
+					height="345px">
+				<borderlayout hflex="1" vflex="1">
+					<north border="none" visible="false">
+						<include src="/layout/menu-user.zul"/>
+					</north>
+					<center id="mainContent" autoscroll="true" border="none">
+					<window id="userPanel" title="${sessionScope.user.username} Home"
+						border="normal" width="900px" height="335px" sclass="window-user">
+							<separator height="10px"/>
+							<vbox align="left" hflex="true">
+								<label value="Step 2." sclass="userhome-label"/>
+								<hlayout>
+									<vbox align="center"
+										width="350px">
+										<label
+											value="Create a new experiment:" sclass="userhome-label2" />
+										<hlayout valign="middle">
+											<button
+												label="Create SNV Experiment"
+												href="/experiments/create-experiment-snv.zul"
+												image="/imgs/icons/experiments/create-experiment-snv-22.png"
+												width="295px" height="50px" sclass="z-button-dashboard" />
+											<image
+												src="/imgs/questionmarkbutton-16x16.png"
+												tooltip="snvTooltip" style="cursor: help" />
+										</hlayout>
+										<hlayout valign="middle">
+											<button
+												label="Create CNV Experiment"
+												href="/experiments/create-experiment-cnv.zul"
+												image="/imgs/icons/experiments/create-experiment-cnv-22.png"
+												width="295px" height="50px" sclass="z-button-dashboard" />
+											<image
+												src="/imgs/questionmarkbutton-16x16.png"
+												tooltip="cnvTooltip" style="cursor: help" />
+										</hlayout>
+										<hlayout valign="middle">
+											<button
+												label="Create ChipSeq Experiment"
+												href="/experiments/create-experiment-chipseq.zul"
+												image="/imgs/icons/experiments/create-experiment-chipseq-22.png"
+												width="295px" height="50px" sclass="z-button-dashboard" />
+											<image
+												src="/imgs/questionmarkbutton-16x16.png"
+												tooltip="chipseqTooltip" style="cursor: help" />
+										</hlayout>
+										<hlayout valign="middle">
+											<button
+												label="Create Methylation Experiment"
+												href="/experiments/create-experiment-methylation.zul"
+												image="/imgs/icons/experiments/create-experiment-methylation-22.png"
+												width="295px" height="50px" sclass="z-button-dashboard" />
+											<image
+												src="/imgs/questionmarkbutton-16x16.png"
+												tooltip="methylationTooltip" style="cursor: help" />
+										</hlayout>
+									</vbox>
+									<vbox align="center"
+										width="474px">
+										<label
+											value="Or select/edit/execute an existing experiment:"
+											sclass="userhome-label2" />
+										<separator height="15px" />
+										<hlayout valign="middle">
+											<button
+												label="My Experiments" href="/experiments/experiments.zul"
+												image="/imgs/icons/experiments-22.png" width="295px"
+												height="50px" sclass="z-button-dashboard" />
+											<image
+												src="/imgs/questionmarkbutton-16x16.png"
+												tooltip="experimentsTooltip" style="cursor: help" />
+										</hlayout>
+										<hlayout valign="middle">
+											<button
+												label="Edit Experiment"
+												href="/experiments/edit-experiment.zul"
+												image="/imgs/icons/edit-experiment-22.png" width="295px"
+												height="50px" sclass="z-button-dashboard" />
+											<image
+												src="/imgs/questionmarkbutton-16x16.png"
+												tooltip="editExperimentTooltip" style="cursor: help" />
+										</hlayout>
+										<hlayout valign="middle">
+											<button
+												label="Execute Experiment"
+												href="/experiments/execute-experiment.zul"
+												image="/imgs/icons/run-experiment-22.png" width="295px"
+												height="50px" sclass="z-button-dashboard" />
+											<image
+												src="/imgs/questionmarkbutton-16x16.png"
+												tooltip="executeExperimentTooltip" style="cursor: help" />
+										</hlayout>
+									</vbox>
+								</hlayout>
+							</vbox>
+						</window>
+					</center>
+				</borderlayout>
+			</window>
+		</div>	
+		<div sclass="footer-separator">
+			<include src="/layout/footer.zul"/>
+		</div>
+	</div>
+
+	<popup id="snvTooltip" width="300px">
+		<html>
+			<![CDATA[ Allows you to create a new XML configuration file for a Single Nucleotide Variant experiment. ]]>
+		</html>
+	</popup>
+	<popup id="cnvTooltip" width="300px">
+		<html>
+			<![CDATA[ Allows you to create a new XML configuration file for a Copy Number Variants experiment. ]]>
+		</html>
+	</popup>
+	<popup id="chipseqTooltip" width="300px">
+		<html>
+			<![CDATA[ Allows you to create a new XML configuration file for a CHipSeq experiment. ]]>
+		</html>
+	</popup>
+	<popup id="methylationTooltip" width="300px">
+		<html>
+			<![CDATA[ Allows you to create a new XML configuration file for a Methylation experiment. ]]>
+		</html>
+	</popup>
+	<popup id="experimentsTooltip" width="300px">
+		<html>
+			<![CDATA[ Allows you to view previous experiments and manage them. ]]>
+		</html>
+	</popup>
+	<popup id="editExperimentTooltip" width="300px">
+		<html>
+			<![CDATA[ Allows you to load and edit an existing XML configuration file. ]]>
+		</html>
+	</popup>
+	<popup id="executeExperimentTooltip" width="300px">
+		<html>
+			<![CDATA[ Allows you to launch RUbioSeq using an existing XML configuration file. ]]>
+		</html>
+	</popup>
+</zk>

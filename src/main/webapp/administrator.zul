@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?page title="RUbioSeq-GUI - Administration panel" contentType="text/html;charset=UTF-8"?>
+<?link rel="stylesheet" type="text/css" href="/css/style.css"?>
+<?link rel="stylesheet" type="text/css" href="/css/dashboard.css"?>
+<?link rel="shortcut icon" href="/favicon.ico"?>
+
+<!--
+	This file is part of RUbioSeq-GUI.
+
+	RUbioSeq-GUI is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	RUbioSeq-GUI is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with RUbioSeq-GUI.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<zk>
+	<div id="container" sclass="container" align="center">
+		<include src="/layout/header.zul"/>
+		<div id="content" sclass="content">
+		<window 
+				id="main"
+				border="none" 
+				contentSclass="mainWindowContent"
+				sclass="window-main"
+				width="960px" 
+				height="260px"
+				apply="org.zkoss.bind.BindComposer"
+				viewModel="@id('vm') @init('es.uvigo.ei.sing.rubioseq.gui.view.models.AdministratorViewModel')"
+				>
+			<borderlayout hflex="1" vflex="1">
+				<north border="none" visible="false">
+					<include src="/layout/menu-admin.zul"/>
+				</north>
+				<center id="mainContent" autoscroll="true" border="none">
+				<window id="adminPanel" title="Administrator panel"
+					border="normal" width="900px" height="250px">
+					<separator height="20px" />
+					<div sclass="div-admin-buttons">
+						<vlayout>
+							<hlayout valign="middle">
+								<button
+									label="RUbioSeq-GUI Configuration"
+									href="/administrator/configuration.zul"
+									image="/imgs/icons/configuration-22.png" width="300px"
+									height="55px" sclass="z-button-dashboard" />
+								<image
+									src="/imgs/questionmarkbutton-16x16.png"
+									tooltip="configurationTooltip" style="cursor: help"/>
+							</hlayout>
+							<hlayout valign="middle">
+								<button label="Users"
+									href="/administrator/manage-users.zul"
+									image="/imgs/icons/users-22.png" width="300px" height="55px"
+									sclass="z-button-dashboard" />
+								<image
+									src="/imgs/questionmarkbutton-16x16.png" tooltip="usersTooltip"
+									style="cursor: help"/>
+							</hlayout>
+							<hlayout valign="middle">
+								<button label="Datastores"
+									href="/administrator/manage-datastores.zul"
+									image="/imgs/icons/datastore-22.png" width="300px"
+									height="55px" sclass="z-button-dashboard" />
+								<image
+									src="/imgs/questionmarkbutton-16x16.png"
+									tooltip="datastoresTooltip" style="cursor: help"/>
+							</hlayout>
+						</vlayout>
+					</div>
+					</window>
+				</center>
+			</borderlayout>
+		</window>
+		</div>	
+		<div sclass="footer-separator">
+			<include src="/layout/footer.zul"/>
+		</div>
+	</div>
+	<popup id="configurationTooltip" width="300px">
+		<html>
+			<![CDATA[ Allows you to configure this GUI (specify the RUbioSeq executable, edit configProgramPaths.xml files, etc.). ]]>
+		</html>
+	</popup>
+		<popup id="usersTooltip" width="300px">
+		<html>
+			<![CDATA[ Allows you to manage the users of this GUI. ]]>
+		</html>
+	</popup>
+		<popup id="datastoresTooltip" width="300px">
+		<html>
+			<![CDATA[ Allows you to manage the datastores of this GUI. ]]>
+		</html>
+	</popup>	
+</zk>

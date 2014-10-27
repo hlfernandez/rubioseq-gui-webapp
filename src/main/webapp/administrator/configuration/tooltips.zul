@@ -1,0 +1,140 @@
+
+<!--
+	This file is part of RUbioSeq-GUI.
+
+	RUbioSeq-GUI is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	RUbioSeq-GUI is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with RUbioSeq-GUI.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<zk>
+	<popup id="bwaPath" width="300px">
+ 		<html><![CDATA[
+		bwaPath: Mandatory. They initialize the directory where binary or script of bwa is located.
+        ]]></html>
+	</popup>
+	<popup id="samtoolsPath" width="300px">
+ 		<html><![CDATA[
+		samtoolsPath: Mandatory. They initialize the directory where binary or script of samtools is located.
+        ]]></html>
+	</popup>
+	<popup id="gatkpath" width="300px">
+ 		<html><![CDATA[
+		gatkpath: Mandatory. They initialize the directory where binary or script of gatk is located.
+        ]]></html>
+	</popup>
+	<popup id="picardPath" width="300px">
+ 		<html><![CDATA[
+		picardPath: Mandatory. They initialize the directory where binary or script of picard is located.
+        ]]></html>
+	</popup>
+	<popup id="BFASTPath" width="300px">
+ 		<html><![CDATA[
+		BFASTPath: Mandatory. They initialize the directory where binary or script of BFAST is located.
+        ]]></html>
+	</popup>
+	<popup id="fastqcPath" width="300px">
+ 		<html><![CDATA[
+		fastqcPath: Mandatory. They initialize the directory where binary or script of fastqc is located.
+        ]]></html>
+	</popup>
+	<popup id="queueSystem" width="300px">
+ 		<html><![CDATA[
+		queueSystem: represents queue scheduler type. The accepted values are: SGE, PBS and none (for execution in non-queue controlled systems).
+        ]]></html>
+	</popup>
+	<popup id="BEDToolsPath" width="300px">
+ 		<html><![CDATA[
+		BEDToolsPath: Mandatory. They initialize the directory where binary or script of bed tools is located.
+        ]]></html>
+	</popup>
+	<popup id="CONTRAPath" width="300px">
+ 		<html><![CDATA[
+		CONTRAPath: Mandatory. They initialize the directory where binary or script of CONTRA is located.
+        ]]></html>
+	</popup>
+	<popup id="bismarkPath" width="300px">
+ 		<html><![CDATA[
+		bismarkPath: Mandatory. They initialize the directory where binary or script of bismark is located.
+        ]]></html>
+	</popup>
+	<popup id="bowtiePath" width="300px">
+ 		<html><![CDATA[
+		bowtiePath: Mandatory. They initialize the directory where binary or script of bowtie is located.
+        ]]></html>
+	</popup>
+	<popup id="filoPath" width="300px">
+ 		<html><![CDATA[
+		filoPath: Mandatory. They initialize the directory where binary or script of filo is located.
+        ]]></html>
+	</popup>
+	<popup id="fastxPath" width="300px">
+ 		<html><![CDATA[
+		fastxPath: Mandatory. They initialize the directory where binary or script of fastx is located.
+        ]]></html>
+	</popup>
+	<popup id="MACSPath" width="300px">
+ 		<html><![CDATA[
+		MACSPath: Mandatory. They initialize the directory where binary or script of MACS is located.
+        ]]></html>
+	</popup>
+	<popup id="PythonPath" width="300px">
+ 		<html><![CDATA[
+		PythonPath: Mandatory. They initialize the directory where binary or script of Python is located.
+        ]]></html>
+	</popup>
+	<popup id="CCATPath" width="300px">
+ 		<html><![CDATA[
+		CCATPath: Mandatory. They initialize the directory where binary or script of CCAT is located.
+        ]]></html>
+	</popup>
+	<popup id="BedgraphtoWigPath" width="300px">
+ 		<html><![CDATA[
+		BedgraphtoBigPath: Mandatory. They initialize the directory where binary or script of BedgraphtoBigWig is located.
+        ]]></html>
+	</popup>
+	<popup id="IDRPath" width="300px">
+ 		<html><![CDATA[
+		IDRPath: Mandatory. They initialize the directory where binary or script of IDR is located.
+        ]]></html>
+	</popup>
+	<popup id="PeakAnnotatorPath" width="300px">
+ 		<html><![CDATA[
+		PeakAnnotatorPath: Mandatory. They initialize the directory where binary or script of PeakAnnotator is located.
+        ]]></html>
+	</popup>
+
+	<popup id="nthr" width="300px">
+ 		<html><![CDATA[
+		 nthr: represents thread number parameter for all compatible applications. Default value: 1.
+        ]]></html>
+	</popup>
+	<popup id="javaRam" width="300px">
+ 		<html><![CDATA[
+		javaRam: Maximum RAM memory limit for java applications. Default value: -Xmx16G.
+        ]]></html>
+	</popup>
+	<popup id="queueName" width="300px">
+ 		<html><![CDATA[
+		queueName: Queue's name in which tasks are going to run. Default value: normal.
+        ]]></html>
+	</popup>
+	<popup id="multicoreName" width="300px">
+ 		<html><![CDATA[
+		multicoreName: Only valid for SGE systems. It represents the name of the SGE's parallel environment. Default value: multicore (disabled). To use this parameter, SGE manager must create a parallel environment with the multicoreName feature.
+        ]]></html>
+	</popup>
+	<popup id="multicoreNumber" width="300px">
+ 		<html><![CDATA[
+		multicoreNumber: Only valid for SGE systems. Represents the number of slots the user want to keep for his execution. Default value: -1 (disabled). To use this feature, SGE manager must create a parallel environment called multicore.
+        ]]></html>
+	</popup>
+</zk>

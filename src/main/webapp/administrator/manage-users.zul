@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?page title="RUbioSeq-GUI - Manage users" contentType="text/html;charset=UTF-8"?>
+<?link rel="stylesheet" type="text/css" href="/css/style.css"?>
+<?link rel="shortcut icon" href="/favicon.ico"?>
+
+<!--
+	This file is part of RUbioSeq-GUI.
+
+	RUbioSeq-GUI is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	RUbioSeq-GUI is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with RUbioSeq-GUI.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<zk>
+	<div id="container" sclass="container" align="center">
+		<include src="/layout/header.zul"/>
+		<div id="content" sclass="content">
+			<window 
+					id="main"
+					border="none" 
+					contentSclass="mainWindowContent"
+					width="960px" 
+					height="500px">
+				<borderlayout hflex="1" vflex="1">
+					<north border="none" >
+						<include src="/layout/menu-admin.zul"/>
+					</north>
+					<center id="mainContent" autoscroll="true" border="none">
+						<groupbox mold="3d" hflex="true" vflex="true"
+							closable="false" apply="org.zkoss.bind.BindComposer"
+							viewModel="@id('vm') @init('es.uvigo.ei.sing.rubioseq.gui.view.models.UsersViewModel')">
+							<window id="windowChangePassword"
+								title="Change password" border="normal" mode="modal"
+								visible="@load(vm.changePasswordUser ne null)" width="300px">
+								<vbox hflex="1" align="center">
+									<vlayout>
+										<grid hflex="1">
+											<columns>
+												<column hflex="min"
+													align="right" />
+												<column />
+											</columns>
+											<rows>
+												<row>
+													New Password :
+													<textbox
+														id="newPassword" type="password"
+														value="@bind(vm.newPassword) @validator('password')"
+														hflex="1" />
+												</row>
+												<row>
+													Repeat Password :
+													<textbox
+														type="password" value="@bind(vm.repeatNewPassword)"
+														hflex="1">
+														<attribute name="onChange"><![CDATA[
+	if (!self.getValue().equals(newPassword.getValue())) {
+		Clients.showNotification(
+				"Password are different. Please, introduce the same password in both fields.",
+				Clients.NOTIFICATION_TYPE_ERROR, self, "end_center", 0);
+	}
+]]></attribute>
+													</textbox>
+												</row>
+											</rows>
+										</grid>
+										<vlayout>
+											<vbox hflex="1"
+												align="center">
+												<hlayout>
+													<button
+														label="Change password"
+														onClick="@command('confirmChangePassword')"
+														disabled="@load(not vm.changePasswordOk)"
+														image="/imgs/icons/ok-16.png">
+													</button>
+													<button
+														label="Cancel" onClick="@command('cancelChangePassword')"
+														image="/imgs/icons/cancel-16.png">
+													</button>
+												</hlayout>
+											</vbox>
+										</vlayout>
+									</vlayout>
+								</vbox>
+							</window>
+							<caption label="Manage users"
+								image="/imgs/icons/users-22.png" />
+							<grid model="@bind(vm.users)" mold="paging"
+								pageSize="6">
+								<columns>
+									<column label="Username"
+										hflex="true" />
+									<column label="Email" hflex="true" />
+									<column label="Admin" hflex="min" />
+									<column label="Actions"
+										width="100px" />
+								</columns>
+								<template name="model" var="user">
+									<row>
+										<label
+											value="@bind(user.username)" hflex="true" />
+										<textbox
+											value="@bind(user.email)" inplace="true"
+											onChange="@command('editUser', user=user)" hflex="true" />
+										<checkbox
+											checked="@bind(user.admin)"
+											onCheck="@command('editUser', user=user)" />
+										<hlayout>
+											<button
+												tooltiptext="Delete this user"
+												onClick="@command('delete', user=user)"
+												image="/imgs/icons/delete-16.png" />
+											<button
+												tooltiptext="Change user password"
+												onClick="@command('changePassword', user=user)"
+												image="/imgs/icons/password-16.png" />
+										</hlayout>
+									</row>
+								</template>
+							</grid>
+						</groupbox>
+					</center>
+				</borderlayout>
+			</window>
+		</div>	
+		<include src="/layout/footer.zul"/>
+	</div>
+</zk>

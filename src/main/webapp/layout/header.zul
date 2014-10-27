@@ -1,0 +1,21 @@
+<div sclass="header">
+	<div style="float: left;">
+		<hlayout>
+			<separator width="5px"/>
+			<a href="/index.zul">
+				<image src="/imgs/rubioseq-logo.png" width="98px" />
+			</a>
+		</hlayout>
+	</div>
+	<div style="float: right; padding-top: 40px;">
+		<hlayout valign="middle">
+			<a href="/user/profile.zul" 
+				sclass="headerLinks"
+				>
+				<label value="Logged as ${sessionScope.user.username}"/>
+			</a>
+			<a href="/logout.zul" image="/imgs/logout.png" tooltiptext="Close Session"/>
+			<separator width="5px"/>
+		</hlayout>
+	</div>
+</div>

@@ -1,0 +1,8 @@
+<hbox width="960px" height="50px" align="bottom" pack="center" spacing="10px" sclass="footer">
+	<hbox hflex="1" vflex="1" align="center" pack="center" spacing="10px" >
+			<label value="Developed by:"
+					style="font-size:13pt; color: darkgray; font-family: 'Helvetica Neue Ultra Light' !important;" />
+				<image src="/imgs/ubiologo.png" height="30px" />
+				<image src="/imgs/singlogo.png" height="30px" />
+	</hbox>
+</hbox>

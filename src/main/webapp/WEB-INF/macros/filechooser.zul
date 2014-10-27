@@ -1,0 +1,124 @@
+
+<!--
+	This file is part of RUbioSeq-GUI.
+
+	RUbioSeq-GUI is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	RUbioSeq-GUI is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with RUbioSeq-GUI.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<hlayout 
+	id="mainlayout"
+	apply="org.zkoss.bind.BindComposer"
+    viewModel="@id('fvm') @init('es.uvigo.ei.sing.rubioseq.gui.macros.FileChooserVM')">
+    
+	<label hflex="1" id="pathlabel"/>
+	<separator width="10px"></separator>
+	<button id="browsebutton" label="browse" image="/imgs/icons/browse-folder-16.png"></button>
+	<window 
+		id="selectfoldername" 
+		title="Output file" 
+		border="normal" 
+		visible="@load(fvm.createFolder)" 
+		mode="modal"
+		width="300px">
+		<vbox vflex="1" hflex="1" align="center" pack="center">
+		<hbox>
+			<label value="Name: "/><textbox width="225px" value="@bind(fvm.folderName)"/>
+		</hbox>
+		<vlayout>
+			<vbox hflex="1" align="center">
+	        	<hlayout>
+					<button 
+						label="Create" 
+						onClick="@command('createFolder')" 
+						disabled="@load(not fvm.allowedCreateFolder)"
+						image="/imgs/icons/ok-16.png"
+					/>
+					<button 
+						label="Cancel" 
+						onClick="@command('cancelCreateFolder')"
+						image="/imgs/icons/cancel-16.png"
+					/>
+				</hlayout>
+			</vbox>
+		</vlayout>			
+		</vbox>
+	</window>	
+    <window 
+    	title="Choose File" 
+    	border="normal"  
+    	id="fileselector"  
+    	visible="false" 
+    	width="600px" 
+    	height="400px">
+    	<vlayout>
+    		<hlayout>
+    			<label value="Selected file:"/> 
+    			<textbox id="pathbox" hflex="true"/>
+    		</hlayout>
+    		<hlayout>
+    			<label value="Datastore:"/>
+    			<combobox
+    				model="@load(fvm.dataStores)"
+    				selectedItem="@bind(fvm.currentDataStore)"
+    				onChange="@command('changeDataStore')"
+    				hflex="1" 
+    			/>
+    			<button 
+    				onClick="@command('upDirectory')" 
+    				disabled="@load(not fvm.allowedUpDirectory)"
+    				image="/imgs/icons/moveup-16.png"
+    			/>
+    			<button 
+    				onClick="@command('showCreateFolder')" 
+    				disabled="@load(not fvm.allowedCreateFolder)"
+    				image="/imgs/icons/new-folder-16.png"
+    			/>
+    		</hlayout>
+    		<hlayout>
+    			<label value="Filter:"/>
+    			<textbox value="@bind(fvm.filesFilter)" instant="true" hflex="true" onChange="@command('onFilesFilterTBChanged')"/>
+    			<button 
+    				onClick="@command('resetFilesFilter')" 
+    				disabled="@load(not fvm.allowedResetFilesFilter)"
+    				image="/imgs/icons/default-16.png"
+    				tooltiptext="Reset filter"
+    			/>
+    		</hlayout>
+	        <listbox rows="5" 
+	            model="@load(fvm.currentFiles)"
+	            selectedItem="@bind(fvm.selectedFile)"
+	             height="225px"
+	           >
+	            <listhead>
+	                <listheader label="File" />
+	            </listhead>
+	            <template name="model" var="file">
+	                <listitem>
+	                    <listcell 
+	                    	image="@load(file.image)"
+	                    	label="@load(file.absolutePathWithDatastoreName)" 
+	                    	onDoubleClick="@command('changeListFiles', file=file.file)"
+	                    	onClick="@command('changeSelectedFile', file=file.file)"
+	                    	/>
+	                </listitem>
+	            </template>
+	        </listbox>
+	        <vbox hflex="1" align="center">
+	        	<hlayout>
+    				<button id="acceptbutton" label="Accept" image="/imgs/icons/ok-16.png"></button>
+					<button id="cancelbutton" label="Cancel" image="/imgs/icons/cancel-16.png"></button>
+				</hlayout>
+	        </vbox>
+    	</vlayout>
+    </window>
+</hlayout>

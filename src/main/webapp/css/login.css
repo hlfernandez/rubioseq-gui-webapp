@@ -1,0 +1,51 @@
+.header-login {
+	border-bottom: 3px solid #B0C4DE;
+	padding-bottom: 10px;
+}
+
+.header-rubioseq-logo {
+	max-width: 240px;
+	max-height: 127px
+}
+
+.header-rubioseq-label {
+	font-size: 20pt;
+	font-family: 'Helvetica Neue Ultra Light' !important;
+}
+
+.welcome-label {
+	font-size: 18pt;
+}
+
+.z-window-embedded-header {
+	font-size: 12pt;
+}
+
+.welcome-left {
+	float: left;
+	width: 53%;
+	padding-left: 15px;
+	background-image: url('../imgs/rubioseq-background-home.png');
+}
+
+.welcome-right {
+	float: right;
+	width: 42%;
+	padding-top: 4px;
+}
+
+.login-window-label {
+	font-size: 12pt;
+	color: darkgray;
+	font-size: 12pt;
+}
+
+.login-window-button {
+	font-size: 17pt;
+	border-radius: 15px;
+}
+
+.footer-separator {
+	width: 960px;
+	border-top: 3px solid #b0c4de;
+}

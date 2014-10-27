@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?page title="RUbioSeq-GUI - Edit Methylation configProgramPaths.xml" contentType="text/html;charset=UTF-8"?>
+<?link rel="stylesheet" type="text/css" href="/css/style.css"?>
+<?link rel="shortcut icon" href="/favicon.ico"?>
+<?component name="filechooser" macroURI="/WEB-INF/macros/filechooser.zul" class="es.uvigo.ei.sing.rubioseq.gui.macros.FileChooser"?>
+
+<!--
+	This file is part of RUbioSeq-GUI.
+
+	RUbioSeq-GUI is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	RUbioSeq-GUI is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with RUbioSeq-GUI.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<zk>
+	<div id="container" sclass="container" align="center">
+		<include src="/layout/header.zul"/>
+		<div id="content" sclass="content">
+			<window 
+					id="main"
+					border="none" 
+					contentSclass="mainWindowContent"
+					width="960px" 
+					height="512px">
+				<borderlayout hflex="1" vflex="1">
+					<north border="none" >
+						<include src="/layout/menu-admin.zul"/>
+					</north>
+					<center id="mainContent" autoscroll="true" border="none">
+						<groupbox 
+							mold="3d" 
+							closable="false"
+							vflex="1"
+						 	apply="org.zkoss.bind.BindComposer"
+							viewModel="@id('vm') @init('es.uvigo.ei.sing.rubioseq.gui.view.models.configuration.ConfigProgramPathsMethylationModel')">
+																					
+							<caption label="Methylation configProgramPaths.xml" image="/imgs/icons/edit-22.png">
+								<button 
+									label="Save" 
+									onClick="@command('saveConfigProgramPaths')"
+									disabled="@load(not vm.enabledSaveButton)"
+									image="/imgs/icons/export-22.png"
+									sclass="@load(vm.exportButtonClass)"
+									height="35px"
+								/>
+							</caption>
+							<tabbox id="tb" vflex="1">
+							    <tabs>
+							        <tab label="Mandatory parameters" />
+							        <tab label="Optional parameters" />
+							    </tabs>
+							    <tabpanels>
+							        <tabpanel
+							        	id="tb_mandatory" 
+							        	height="395px"
+							        	style="overflow:auto;"
+							        >
+										<vlayout>
+										<grid hflex="1">
+											<columns>
+												<column label="Parameter" width="160px" />
+												<column label="Value" />
+											</columns>
+											<rows>
+												<row>
+										        	<hlayout>
+											             bismarkPath
+											             <separator
+											              	orient="vertical" spacing="3px" />
+											             <image
+											             	src="/imgs/questionmarkbutton-16x16.png"
+											              	tooltip="bismarkPath" style="cursor: help" />
+										            </hlayout>
+										            <filechooser path="@bind(vm.configuration.bismarkPath)" type="input"/>
+												</row>
+												<row>
+										        	<hlayout>
+											             bowtiePath
+											             <separator
+											              	orient="vertical" spacing="3px" />
+											             <image
+											             	src="/imgs/questionmarkbutton-16x16.png"
+											              	tooltip="bowtiePath" style="cursor: help" />
+										            </hlayout>
+										            <filechooser path="@bind(vm.configuration.bowtiePath)" type="input"/>
+												</row>
+												<row>
+										        	<hlayout>
+											             picardPath
+											             <separator
+											              	orient="vertical" spacing="3px" />
+											             <image
+											             	src="/imgs/questionmarkbutton-16x16.png"
+											              	tooltip="picardPath" style="cursor: help" />
+										            </hlayout>
+										            <filechooser path="@bind(vm.configuration.picardPath)" type="input"/>
+												</row>
+												<row>
+										        	<hlayout>
+											             bedToolsPath
+											             <separator
+											              	orient="vertical" spacing="3px" />
+											             <image
+											             	src="/imgs/questionmarkbutton-16x16.png"
+											              	tooltip="BEDToolsPath" style="cursor: help" />
+										            </hlayout>
+										            <filechooser path="@bind(vm.configuration.bedtoolsPath)" type="input"/>
+												</row>
+												<row>
+										        	<hlayout>
+											             fastqcPath
+											             <separator
+											              	orient="vertical" spacing="3px" />
+											             <image
+											             	src="/imgs/questionmarkbutton-16x16.png"
+											              	tooltip="fastqcPath" style="cursor: help" />
+										            </hlayout>
+										            <filechooser path="@bind(vm.configuration.fastqcPath)" type="input"/>
+												</row>
+												<row>
+										        	<hlayout>
+											             fastxPath
+											             <separator
+											              	orient="vertical" spacing="3px" />
+											             <image
+											             	src="/imgs/questionmarkbutton-16x16.png"
+											              	tooltip="fastxPath" style="cursor: help" />
+										            </hlayout>
+										            <filechooser path="@bind(vm.configuration.fastxPath)" type="input"/>
+												</row>
+												<row>
+										        	<hlayout>
+											             filoPath
+											             <separator
+											              	orient="vertical" spacing="3px" />
+											             <image
+											             	src="/imgs/questionmarkbutton-16x16.png"
+											              	tooltip="filoPath" style="cursor: help" />
+										            </hlayout>
+										            <filechooser path="@bind(vm.configuration.filoPath)" type="input"/>
+												</row>
+												<row>
+										        	<hlayout>
+											             queueSystem
+											             <separator
+											              	orient="vertical" spacing="3px" />
+											             <image
+											             	src="/imgs/questionmarkbutton-16x16.png"
+											              	tooltip="queueSystem" style="cursor: help" />
+										            </hlayout>
+									              	<radiogroup
+									              		model="@load(vm.configuration.queueSystemValues)" 
+									              		hflex="1" selectedItem="@bind(vm.configuration.queueSystem)">
+													</radiogroup>
+												</row>	
+											</rows>
+											</grid>
+										</vlayout>
+							        </tabpanel>
+							        <tabpanel
+							        	id="tb_optional" 
+							        	style="overflow:auto;"
+							        >
+							        	<vlayout>
+										<grid hflex="1">
+											<columns>
+												<column label="Parameter" width="160px"/>
+												<column label="Value"/>
+												<column label="Actions" hflex="min"/>
+											</columns>
+											<rows>
+												<row>
+										        	<hlayout>
+											             nthr
+											             <separator
+											              	orient="vertical" spacing="3px" />
+											             <image
+											             	src="/imgs/questionmarkbutton-16x16.png"
+											              	tooltip="nthr" style="cursor: help" />
+										            </hlayout>
+										            <spinner hflex="1" value="@bind(vm.configuration.nthr)" constraint="min 1"/>
+													<button tooltiptext="Restore default" onClick="@command('restoreNthr')" image="/imgs/icons/default-16.png"/>
+												</row>
+												<row>
+										        	<hlayout>
+											             javaRam
+											             <separator
+											              	orient="vertical" spacing="3px" />
+											             <image
+											             	src="/imgs/questionmarkbutton-16x16.png"
+											              	tooltip="javaRam" style="cursor: help" />
+										            </hlayout>
+										            <textbox hflex="1" value="@bind(vm.configuration.javaRam)" inplace="true"/>
+													<button tooltiptext="Restore default" onClick="@command('restoreJavaRam')" image="/imgs/icons/default-16.png"/>
+												</row>												
+												<row>
+										        	<hlayout>
+											             queueName
+											             <separator
+											              	orient="vertical" spacing="3px" />
+											             <image
+											             	src="/imgs/questionmarkbutton-16x16.png"
+											              	tooltip="queueName" style="cursor: help" />
+										            </hlayout>
+										            <textbox hflex="1" value="@bind(vm.configuration.queueName)" inplace="true"/>
+													<button tooltiptext="Restore default" onClick="@command('restoreQueueName')" image="/imgs/icons/default-16.png"/>
+												</row>												
+												<row>
+										        	<hlayout>
+											             multicoreName
+											             <separator
+											              	orient="vertical" spacing="3px" />
+											             <image
+											             	src="/imgs/questionmarkbutton-16x16.png"
+											              	tooltip="multicoreName" style="cursor: help" />
+										            </hlayout>
+										            <textbox hflex="1" value="@bind(vm.configuration.multicoreName)" inplace="true"/>
+													<button tooltiptext="Restore default" onClick="@command('restoreMulticoreName')" image="/imgs/icons/default-16.png"/>
+												</row>												
+												<row>
+										        	<hlayout>
+											             multicoreNumber
+											             <separator
+											              	orient="vertical" spacing="3px" />
+											             <image
+											             	src="/imgs/questionmarkbutton-16x16.png"
+											              	tooltip="multicoreNumber" style="cursor: help" />
+										            </hlayout>
+										            <spinner hflex="1" value="@bind(vm.configuration.multicoreNumber)" constraint="min -1 max 16"/>
+													<button tooltiptext="Restore default" onClick="@command('restoreMulticoreNumber')" image="/imgs/icons/default-16.png"/>
+												</row>
+											</rows>
+										</grid>
+										</vlayout>
+							        </tabpanel>
+							    </tabpanels>
+							</tabbox>
+						</groupbox>
+					</center>
+				</borderlayout>
+			</window>
+		</div>	
+		<include src="/layout/footer.zul"/>
+	</div>
+	<include src="/administrator/configuration/tooltips.zul"/>
+</zk>

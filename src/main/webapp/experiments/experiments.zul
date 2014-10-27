@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?page title="RUbioSeq-GUI - My experiments" contentType="text/html;charset=UTF-8"?>
+<?link rel="stylesheet" type="text/css" href="/css/style.css"?>
+<?link rel="shortcut icon" href="/favicon.ico"?>
+
+<!--
+	This file is part of RUbioSeq-GUI.
+
+	RUbioSeq-GUI is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	RUbioSeq-GUI is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with RUbioSeq-GUI.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<zk>
+	<div id="container" sclass="container" align="center">
+		<include src="/layout/header.zul"/>
+		<div id="content" sclass="content">
+			<window 
+					id="main"
+					border="none" 
+					contentSclass="mainWindowContent"
+					width="960px" 
+					height="500px">
+				<borderlayout hflex="1" vflex="1">
+					<north border="none" >
+						<include src="/layout/menu-user.zul"/>
+					</north>
+					<center id="mainContent" autoscroll="true" border="none">
+						<groupbox mold="3d" hflex="true" vflex="true" closable="false">
+						<caption label="${sessionScope.user.username} experiments" image="/imgs/icons/experiments-22.png"/>
+							<grid apply="org.zkoss.bind.BindComposer"
+							    viewModel="@id('vm') @init('es.uvigo.ei.sing.rubioseq.gui.view.models.ExperimentsViewModel')" 
+							    model="@bind(vm.userexperiments)"
+							    mold="paging" pageSize="6"
+							>
+							    <columns>
+							        <column label="Working directory"/>
+							        <column label="Creation date" hflex="min"/>
+							        <column label="Type" hflex="min"/>
+							        <column label="Status" hflex="min" />
+							        <column label="Exec. Level" hflex="min"/>
+							        <column label="Actions" width="130px"/>
+							    </columns>
+							    <template name="model" var="experiment">
+							        <row>
+							            <label value="@bind(experiment.workingDirectory)"/>
+							            <datebox 
+							            	value="@bind(experiment.created)" 
+							            	format="d/M/yy HH:mm:ss"
+							            	buttonVisible="false" 
+							            	disabled="true"
+							            	style="background: none repeat scroll 0 0 #FFFFFF;color: #000000 !important;" 
+							            	width="105px"/>
+							            <label value="@bind(experiment.type)"/>
+							            <label value="@bind(experiment.status)"/>
+							            <label value="@bind(experiment.executionLevel)"/>
+							            <hbox>
+											<button
+												onClick="@command('delete', experiment=experiment)"
+												image="/imgs/icons/delete-16.png" disabled="false"
+												tooltiptext="Remove this experiment from the list"
+											/>
+											<button
+												onClick="@command('view', experiment=experiment)"
+												image="/imgs/icons/view-16.png"
+												visible="@load(experiment.monitorizableExperiment)"
+												tooltiptext="Monitor this experiment"
+											/>
+											<button
+												onClick="@command('updateExperimentProgress', experiment=experiment)"
+												image="/imgs/icons/update-16.png"
+												visible="@load(experiment.monitorizableExperiment)"
+												tooltiptext="Refresh the experiment status"
+											/>
+							            </hbox>
+							        </row>
+							    </template>
+							</grid>
+						</groupbox>
+					</center>
+				</borderlayout>
+			</window>
+		</div>	
+		<include src="/layout/footer.zul"/>
+	</div>
+</zk>

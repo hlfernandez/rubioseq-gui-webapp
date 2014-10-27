@@ -1,0 +1,16 @@
+<menubar width="960px">
+	<menuitem label="Home" href="/index.zul" image="/imgs/icons/home-16.png"/>
+	<menuitem label="Administration panel" href="/administrator.zul" image="/imgs/icons/configuration-16.png" if="${sessionScope.user.admin}"/>
+	<menuseparator width="5px"/>
+	<menu label="Create Experiment..." image="/imgs/icons/new-experiment-16.png"><menupopup>
+		<menuitem label="SNV" href="/experiments/create-experiment-snv.zul" image="/imgs/icons/experiments/create-experiment-snv-16.png"/>
+		<menuitem label="CNV" href="/experiments/create-experiment-cnv.zul" image="/imgs/icons/experiments/create-experiment-cnv-16.png"/>
+		<menuitem label="ChipSeq" href="/experiments/create-experiment-chipseq.zul" image="/imgs/icons/experiments/create-experiment-chipseq-16.png"/>
+		<menuitem label="Methylation" href="/experiments/create-experiment-methylation.zul" image="/imgs/icons/experiments/create-experiment-methylation-16.png"/>
+	</menupopup></menu>
+	<menuitem label="My Profile" href="/user/profile.zul" image="/imgs/icons/profile-16.png" visible="false"/>
+	<menuseparator width="5px"/>
+	<menuitem label="My Experiments" href="/experiments/experiments.zul" image="/imgs/icons/experiments-16.png"/>
+	<menuitem label="Edit Experiment" href="/experiments/edit-experiment.zul" image="/imgs/icons/edit-experiment-16.png"/>
+	<menuitem label="Execute Experiment" href="/experiments/execute-experiment.zul" image="/imgs/icons/run-experiment-16.png"/>
+</menubar>

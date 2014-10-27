@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?page title="RUbioSeq-GUI - View experiment" contentType="text/html;charset=UTF-8"?>
+<?link rel="stylesheet" type="text/css" href="/css/style.css"?>
+<?link rel="shortcut icon" href="/favicon.ico"?>
+<?component name="filechooser" macroURI="/WEB-INF/macros/filechooser.zul" class="es.uvigo.ei.sing.rubioseq.gui.macros.FileChooser"?>
+
+<!--
+	This file is part of RUbioSeq-GUI.
+
+	RUbioSeq-GUI is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	RUbioSeq-GUI is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with RUbioSeq-GUI.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<zk>
+	<div id="container" sclass="container" align="center">
+		<include src="/layout/header.zul"/>
+		<div id="content" sclass="content">
+			<window 
+					id="main"
+					border="none" 
+					contentSclass="mainWindowContent"
+					width="960px" 
+					height="500px">
+				<borderlayout hflex="1" vflex="1">
+					<north border="none" >
+						<include src="/layout/menu-user.zul"/>
+					</north>
+					<center id="mainContent" autoscroll="true" border="none">
+					<window vflex="1">
+						<groupbox mold="3d" hflex="true" vflex="true" closable="false"
+						 apply="org.zkoss.bind.BindComposer"
+							viewModel="@id('vm') @init('es.uvigo.ei.sing.rubioseq.gui.view.models.ViewExperimentModel')">
+							<timer onTimer="@command('updateLog')" delay="5000" repeats="@bind(vm.timerActive)"/>
+							<caption label="Experiments execution" image="/imgs/home22.png">
+							</caption>
+							<vbox vflex="1" hflex="1">
+								<vlayout>
+									<window 
+										id="experimentWin"
+										title="Experiment summary" 
+										border="normal"
+										>
+										<vbox>
+											<grid hflex="1">
+												<columns>
+													<column hflex="min" align="right" />
+													<column />
+													<column hflex="min" align="right" />
+													<column />
+													<column hflex="min" align="right" />
+													<column />
+												</columns>
+												<rows>
+													<row>
+														<label value="Experiment type"/>
+														<label value="@bind(vm.experiment.type)"/>
+														<label value="Execution Mode"/>
+														<label value="@bind(vm.executionModeString)"/>
+														<label value="Experiment Status"/>
+														<label value="@bind(vm.experiment.status)"/>
+													</row>
+												</rows>
+											</grid>
+										</vbox>
+									</window>
+									<label value="Experiment Progress:"/>
+									<progressmeter id="curr_met" value="@bind(vm.progress)" width="950px"/>
+									<!-- image src="/imgs/icons/running.gif" height="30px"></image> -->
+								</vlayout>
+								<textbox
+									hflex="true"
+									rows="20"
+									value="@bind(vm.experimentLog)">
+								</textbox>
+							</vbox>
+						</groupbox>
+						</window>
+					</center>
+				</borderlayout>
+			</window>
+		</div>	
+		<include src="/layout/footer.zul"/>
+	</div>
+</zk>

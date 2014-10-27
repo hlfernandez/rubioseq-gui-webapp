@@ -1,0 +1,9 @@
+<menubar width="960px">
+	<menuitem label="Administration panel" href="/administrator.zul" image="/imgs/icons/configuration-16.png" if="${sessionScope.user.admin}"/>
+	<menuseparator width="5px"/>
+	<menuitem label="RUbioSeq-GUI Configuration" href="/administrator/configuration.zul" image="/imgs/icons/configuration-16.png"/>
+	<menuitem label="Users" href="/administrator/manage-users.zul" image="/imgs/icons/users-16.png"/>
+	<menuitem label="Datastores" href="/administrator/manage-datastores.zul" image="/imgs/icons/datastore-16.png"/>
+	<menuseparator width="5px"/>
+	<menuitem label="RUbioSEQ Home" href="/index.zul" image="/imgs/icons/home-16.png"/>
+</menubar>

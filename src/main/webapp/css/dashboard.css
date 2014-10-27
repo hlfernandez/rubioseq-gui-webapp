@@ -1,0 +1,43 @@
+.z-window-embedded-header {
+    font-size: 15px;
+    font-weight: bold;
+    text-align: left;
+}
+.z-window-embedded-cnt{
+    background-image: url('../imgs/rubioseq-background-home-admin.png');
+    background-position: -33px -10px;
+}
+
+.z-window-embedded {
+	margin-top: 4px;
+}
+
+.window-user .z-window-embedded-cnt {
+	background-image: none;
+}
+
+.window-main.z-window-embedded {
+	border-top: 3px solid #b0c4de;
+}
+
+.footer-separator {
+	width: 960px;
+	border-top: 3px solid #b0c4de;
+}
+
+/* Administrator panel */
+
+.div-admin-buttons {
+	float: right; 
+	padding-right: 160px
+}
+
+/* User home */
+
+.userhome-label {
+	font-size: 17pt; 
+}
+
+.userhome-label2 {
+	font-size: 15pt;
+}

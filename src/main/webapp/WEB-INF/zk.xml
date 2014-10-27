@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+	This file is part of RUbioSeq-GUI.
+
+	RUbioSeq-GUI is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	RUbioSeq-GUI is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with RUbioSeq-GUI.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<zk>
+	<!-- Defines the application's name -->
+	<preference>
+		<name>org.zkoss.zk.ui.WebApp.name</name>
+		<value>rubioseq-gui</value>
+	</preference>
+
+
+	<!-- [ZK EE] Turn on if you want to enable the render-on-demand feature 
+		for listbox. It improves the performance for huge listbox. Default: false -->
+	<library-property>
+		<name>org.zkoss.zul.listbox.rod</name>
+		<value>true</value>
+	</library-property>
+
+
+	<session-config>
+		<!-- Turn on the following if you want a different timeout Note: The unit 
+			is seconds (while that of web.xml is minute) <session-timeout>30</session-timeout> -->
+	</session-config>
+	<session-config>
+		<!-- Comment it out if you prefer to show a message instead of redirecting 
+			Note: an empty URL can cause the browser to reload the same URL -->
+		<timeout-uri>/timeout.zul</timeout-uri>
+	</session-config>
+
+	<listener>
+		<description>Checks if there is a logged user. If doesn't redirects to
+			index.zul.</description>
+		<listener-class>es.uvigo.ei.sing.rubioseq.gui.view.initiators.SecurityInitiator
+		</listener-class>
+	</listener>
+	<listener>
+		<description>Extended Persistence Context Support in VMs</description>
+		<listener-class>es.uvigo.ei.sing.rubioseq.gui.persistence.OpenExtendedEntityManagerInVMListener
+		</listener-class>
+	</listener>
+	<preference>
+		<name>OpenExtendedEntityManagerInVMListener.DefaultPersistenceUnitName
+		</name>
+		<value>rubioseq-database</value>
+	</preference>
+	<library-property>
+		<name>org.zkoss.bind.appValidators</name>
+		<value>email=es.uvigo.ei.sing.rubioseq.gui.util.EmailValidator,password=es.uvigo.ei.sing.rubioseq.gui.util.PasswordValidator
+		</value>
+	</library-property>
+</zk>
