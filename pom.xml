@@ -3,11 +3,13 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>es.uvigo.ei.sing</groupId>
 	<artifactId>rubioseq-gui-webapp</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.1</version>
 	<properties>
 		<zk.version>6.5.3</zk.version>
+		<rubioseq-gui-persistence.version>0.1</rubioseq-gui-persistence.version>
 		<maven.build.timestamp.format>yyyy-MM-dd</maven.build.timestamp.format>
-		<packname>-0.0.1-SNAPSHOT-FL-${maven.build.timestamp}</packname>
+		<packname>-${project.version}-FL-${maven.build.timestamp}</packname>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<packaging>war</packaging>
 	<name>RUbioSeq-GUI</name>
@@ -98,7 +100,7 @@
 		<dependency>
 			<groupId>es.uvigo.ei.sing</groupId>
 			<artifactId>rubioseq-gui-persistence</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${rubioseq-gui-persistence.version}</version>
 		</dependency>
 	</dependencies>
 	<build>
