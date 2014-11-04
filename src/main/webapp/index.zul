@@ -51,7 +51,7 @@
 												label="Create SNV Experiment"
 												href="/experiments/create-experiment-snv.zul"
 												image="/imgs/icons/experiments/create-experiment-snv-22.png"
-												width="295px" height="50px" sclass="z-button-dashboard" />
+												width="295px" height="50px" sclass="z-button-dashboard-user" />
 											<image
 												src="/imgs/questionmarkbutton-16x16.png"
 												tooltip="snvTooltip" style="cursor: help" />
@@ -61,7 +61,7 @@
 												label="Create CNV Experiment"
 												href="/experiments/create-experiment-cnv.zul"
 												image="/imgs/icons/experiments/create-experiment-cnv-22.png"
-												width="295px" height="50px" sclass="z-button-dashboard" />
+												width="295px" height="50px" sclass="z-button-dashboard-user" />
 											<image
 												src="/imgs/questionmarkbutton-16x16.png"
 												tooltip="cnvTooltip" style="cursor: help" />
@@ -71,7 +71,7 @@
 												label="Create ChipSeq Experiment"
 												href="/experiments/create-experiment-chipseq.zul"
 												image="/imgs/icons/experiments/create-experiment-chipseq-22.png"
-												width="295px" height="50px" sclass="z-button-dashboard" />
+												width="295px" height="50px" sclass="z-button-dashboard-user" />
 											<image
 												src="/imgs/questionmarkbutton-16x16.png"
 												tooltip="chipseqTooltip" style="cursor: help" />
@@ -81,7 +81,7 @@
 												label="Create Methylation Experiment"
 												href="/experiments/create-experiment-methylation.zul"
 												image="/imgs/icons/experiments/create-experiment-methylation-22.png"
-												width="295px" height="50px" sclass="z-button-dashboard" />
+												width="295px" height="50px" sclass="z-button-dashboard-user" />
 											<image
 												src="/imgs/questionmarkbutton-16x16.png"
 												tooltip="methylationTooltip" style="cursor: help" />
@@ -97,7 +97,7 @@
 											<button
 												label="My Experiments" href="/experiments/experiments.zul"
 												image="/imgs/icons/experiments-22.png" width="295px"
-												height="50px" sclass="z-button-dashboard" />
+												height="50px" sclass="z-button-dashboard-user" />
 											<image
 												src="/imgs/questionmarkbutton-16x16.png"
 												tooltip="experimentsTooltip" style="cursor: help" />
@@ -107,7 +107,7 @@
 												label="Edit Experiment"
 												href="/experiments/edit-experiment.zul"
 												image="/imgs/icons/edit-experiment-22.png" width="295px"
-												height="50px" sclass="z-button-dashboard" />
+												height="50px" sclass="z-button-dashboard-user" />
 											<image
 												src="/imgs/questionmarkbutton-16x16.png"
 												tooltip="editExperimentTooltip" style="cursor: help" />
@@ -117,7 +117,7 @@
 												label="Execute Experiment"
 												href="/experiments/execute-experiment.zul"
 												image="/imgs/icons/run-experiment-22.png" width="295px"
-												height="50px" sclass="z-button-dashboard" />
+												height="50px" sclass="z-button-dashboard-user" />
 											<image
 												src="/imgs/questionmarkbutton-16x16.png"
 												tooltip="executeExperimentTooltip" style="cursor: help" />
