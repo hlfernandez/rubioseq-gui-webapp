@@ -457,7 +457,6 @@ public class UserViewModel {
 	@Command
 	public void adminProfile(){
 		this.loginUserName = "admin";
-		this.loginPassword = "admin"; /* TODO Just for testing purposes: remove this in production versions */
 		this.showLogin = true;
 		this.adminLogin = true;
 	}
@@ -466,7 +465,6 @@ public class UserViewModel {
 	@Command
 	public void cancelLogin(){
 		this.loginUserName = "";
-		this.loginPassword = ""; /* TODO Just for testing purposes: remove this in production versions */
 		this.showLogin = false;
 		this.adminLogin = false;
 	}
