@@ -3,17 +3,22 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>es.uvigo.ei.sing</groupId>
 	<artifactId>rubioseq-gui-webapp</artifactId>
+	
 	<version>1.0</version>
-	<properties>
-		<zk.version>6.5.3</zk.version>
-		<rubioseq-gui-persistence.version>1.0</rubioseq-gui-persistence.version>
-		<maven.build.timestamp.format>yyyy-MM-dd</maven.build.timestamp.format>
-		<packname>-${project.version}-FL-${maven.build.timestamp}</packname>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
+	
 	<packaging>war</packaging>
 	<name>RUbioSeq-GUI</name>
 	<description>The RUbioSeq-GUI Project</description>
+
+	<properties>
+		<appName>rubioseq-gui</appName>
+		<zk.version>6.5.3</zk.version>
+		<rubioseq-gui-persistence.version>1.0</rubioseq-gui-persistence.version>
+		<maven.build.timestamp.format>yyyy-MM-dd</maven.build.timestamp.format>
+		<packname>-v${project.version}</packname>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
 	<licenses>
 		<license>
 			<name>GNU LESSER GENERAL PUBLIC LICENSE, Version 3</name>
@@ -21,6 +26,7 @@
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
+
 	<repositories>
 		<repository>
 			<id>ZK CE</id>
@@ -43,6 +49,7 @@
 			<url>http://mavensync.zkoss.org/zk/ee-eval</url>
 		</repository>
 	</repositories>
+
 	<pluginRepositories>
 		<pluginRepository>
 			<id>zkmaven</id>
@@ -50,6 +57,7 @@
 			<url>http://mavensync.zkoss.org/maven2</url>
 		</pluginRepository>
 	</pluginRepositories>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.zkoss.theme</groupId>
@@ -108,9 +116,26 @@
 			<version>2.5</version>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.mortbay.jetty</groupId>
+			<artifactId>jetty-runner</artifactId>
+			<version>8.1.9.v20130131</version>
+			<scope>provided</scope>
+		</dependency>
 	</dependencies>
+
 	<build>
-		<finalName>${project.artifactId}</finalName>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>false</filtering>
+				<excludes>
+					<exclude>scripts/**/*</exclude>
+					<exclude>scripts</exclude>
+				</excludes>
+			</resource>
+		</resources>
+		<finalName>${appName}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -129,6 +154,13 @@
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<version>2.2</version>
+				<configuration>
+					<finalName>${appName}${packname}</finalName>
+					<appendAssemblyId>false</appendAssemblyId>
+					<descriptors>
+						<descriptor>assembly/webapp.xml</descriptor>
+					</descriptors>
+				</configuration>
 				<executions>
 					<execution>
 						<id>webapp</id>
@@ -136,13 +168,6 @@
 						<goals>
 							<goal>single</goal>
 						</goals>
-						<configuration>
-							<finalName>rubioseq-gui${packname}</finalName>
-							<appendAssemblyId>false</appendAssemblyId>
-							<descriptors>
-								<descriptor>assembly/webapp.xml</descriptor>
-							</descriptors>
-						</configuration>
 					</execution>
 				</executions>
 			</plugin>
@@ -154,7 +179,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
-				<version>2.6</version>
+				<version>2.7</version>
 				<executions>
 					<execution>
 						<id>purge-local-dependencies</id>
@@ -168,6 +193,43 @@
 								<manualInclude>org.zkoss.zk:zkmax</manualInclude>
 							</manualIncludes>
 						</configuration>
+					</execution>
+					<execution>
+						<id>copy-dependencies-rubioseq-gui-dist</id>
+					  	<phase>process-resources</phase>
+					  	<goals>
+							<goal>copy-dependencies</goal>
+					  	</goals>
+					  	<configuration>			
+					    	<outputDirectory>${project.build.directory}</outputDirectory>	
+					    	<overWriteReleases>false</overWriteReleases>
+					    	<overWriteSnapshots>false</overWriteSnapshots>
+					    	<overWriteIfNewer>true</overWriteIfNewer>
+					    	<includeArtifactIds>jetty-runner</includeArtifactIds>
+					  	</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+ 			   	<groupId>org.apache.maven.plugins</groupId>
+    			<artifactId>maven-resources-plugin</artifactId>
+    			<version>2.4</version>
+				<executions>
+					<execution>
+						<id>copy-resources-scripts</id>
+					    <phase>validate</phase>
+					    <goals>
+							<goal>copy-resources</goal>	
+					    </goals>
+					    <configuration>
+					    	<outputDirectory>${project.build.directory}</outputDirectory>
+					    	<resources>
+					    		<resource>
+									<directory>src/main/resources/scripts</directory>
+									<filtering>true</filtering>
+					     		</resource>
+					    	</resources>
+					  	</configuration>
 					</execution>
 				</executions>
 			</plugin>
