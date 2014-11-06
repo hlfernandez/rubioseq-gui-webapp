@@ -43,8 +43,8 @@ Then, go to the rubioseq-gui-webapp project base directory and run the following
 `mvn install`
 
 The files resulting from the build are placed in the `target` directory (of the rubioseq-gui-webapp project). The files you may take are:
-    - `rubioseq-gui.war`: the webapp itself. Use this file to deploy the application in a server like Tomcat or jetty.
-    - `rubioseq-gui-v\*.\*.war`: the RUbioSeq-GUI distribution that contains all the neccessary to run RUbioSeq-GUI as an standalone application (`rubioseq-gui.war`, `launch-rubioseq-gui.sh` and `jetty-runner*.jar`).
+  - `rubioseq-gui.war`: the webapp itself. Use this file to deploy the application in a server like Tomcat or jetty.
+  - `rubioseq-gui-v\*.\*.war`: the RUbioSeq-GUI distribution that contains all the neccessary to run RUbioSeq-GUI as an standalone application (`rubioseq-gui.war`, `launch-rubioseq-gui.sh` and `jetty-runner*.jar`).
 
 ### 3. Launch
 After building you can find the distribution file `rubioseq-gui-v\*.\*.war` file in the `target` directory. Uncompress it and run the script `launch-rubioseq-gui.sh`, that deploys the application and opens a browser with the welcome screen of RUbioSeq-GUI.
