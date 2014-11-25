@@ -34,7 +34,7 @@
 									sclass="header-rubioseq-logo" />
 							</vlayout>
 							<label
-								value="An automatic and parallelized suite pipelines to speed up your NGS data analysis"
+								value="An automatic and parallelized suite of pipelines to speed up your NGS data analysis"
 								sclass="header-rubioseq-label" />
 						</hbox>
 					</vlayout>
