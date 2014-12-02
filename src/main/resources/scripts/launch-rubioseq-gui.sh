@@ -16,7 +16,21 @@ EOF
 }
 
 SCRIPT=`basename $0`;
-WAR="rubioseq-gui.war"
+SCRIPTDIR="$(dirname "$0")"
+
+case "$SCRIPTDIR" in
+	/*)
+		true
+		;;
+	*)
+		SCRIPTDIR="${PWD}/$SCRIPTDIR"
+		;;
+esac
+
+# Default parameters
+WAR="${SCRIPTDIR}/rubioseq-gui.war"
+WORKDIR="${HOME}/.local/share/rubioseq-gui"
+JAVAPARAMS="-Xmx4G"
 PORT="8080"
 OPEN="xdg-open";
 
@@ -50,17 +64,18 @@ case "$OSTYPE" in
 	  echo "[$SCRIPT] (O.S. detection)[Could not determine the host O.S.: Using command 'xdg-open' to open the main page of the app." ;;
 esac
 
-if [ -f $WAR ]
+if [ -f "$WAR" ]
 then
-  java -jar jetty-runner-8.1.9.v20130131.jar --port $PORT $WAR | while read line; do
-  echo $line;
-  case "$line" in 
-    *"DB initialized"*)
-      $OPEN http://localhost:$PORT/login.zul
-      ;;
-  esac  
-  done
+  mkdir -p "$WORKDIR"
+  cd "$WORKDIR"
+  java $JAVAPARAMS -jar "$SCRIPTDIR"/jetty-runner-8.1.9.v20130131.jar --port $PORT "$WAR" | while read line; do
+    echo $line;
+    case "$line" in 
+      *"DB initialized"*)
+	$OPEN http://localhost:$PORT/login.zul
+	;;
+    esac  
+   done
 else
   echo "[$SCRIPT] $WAR does not exist.";
 fi
-
