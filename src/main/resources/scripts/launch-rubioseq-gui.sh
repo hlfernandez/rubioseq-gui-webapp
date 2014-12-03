@@ -100,7 +100,7 @@ then
     esac  
   done &
   echo $PORT > $SERVERPORT;
-  swait
+  wait
 else
   echo "[$SCRIPT] $WAR does not exist.";
 fi
