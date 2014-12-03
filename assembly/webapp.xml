@@ -20,5 +20,10 @@
 			<fileMode>777</fileMode>
 			<outputDirectory>/</outputDirectory>
 		</file>
+		<file>
+			<source>${project.build.directory}/stop-rubioseq-gui.sh</source>
+			<fileMode>777</fileMode>
+			<outputDirectory>/</outputDirectory>
+		</file>
 	</files>
 </assembly>
