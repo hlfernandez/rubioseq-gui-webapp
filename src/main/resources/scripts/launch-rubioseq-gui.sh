@@ -70,12 +70,17 @@ if [ -f "$SERVERPID" ]
 then
   PIDCHECK=`cat $SERVERPID`;
   if ps -p $PIDCHECK > /dev/null
-  then
-    echo "[$SCRIPT] One instance of RUbioSeq-GUI is already running (pid=$PIDCHECK)." 
-    if [ -f "$SERVERPORT" ]
+  then  
+    pscount=$((`ps u -p $PIDCHECK | grep "rubioseq-gui.war" | wc -l`));
+    if [[ "$pscount" -eq "1" ]];
     then
-      PORT=`cat $SERVERPORT`;
-      $OPEN http://localhost:$PORT/login.zul
+      echo "[$SCRIPT] One instance of RUbioSeq-GUI is already running (pid=$PIDCHECK)." 
+      if [ -f "$SERVERPORT" ]
+      then
+	echo "[$SCRIPT] Opening http://localhost:$PORT/login.zul in the default browser." 
+	PORT=`cat $SERVERPORT`;
+	$OPEN http://localhost:$PORT/login.zul
+      fi
     fi
     exit 0
   fi
