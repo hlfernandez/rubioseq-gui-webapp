@@ -23,6 +23,7 @@ import org.zkoss.zk.ui.Sessions;
 import es.uvigo.ei.sing.rubioseq.DataStore;
 import es.uvigo.ei.sing.rubioseq.DataStoreMode;
 import es.uvigo.ei.sing.rubioseq.User;
+import es.uvigo.ei.sing.rubioseq.gui.macros.InvalidRUbioSeqFile;
 import es.uvigo.ei.sing.rubioseq.gui.macros.RUbioSeqFile;
 
 /**
@@ -40,19 +41,28 @@ public class Utils {
 	/**
 	 * Converts a path to a RUbioSeqFile. Considerations: the currentUser must
 	 * be allocated in the current session.
-	 * @param path 
-	 * @return The corresponding RUbioSeqFile for the path introduced
+	 * @param path the path of the file.
+	 * @param checkFileExists if false, then the parent of the file existence is checked instead of the file itself.
+	 * @return The corresponding RUbioSeqFile for the path introduced.
 	 */
-	public static RUbioSeqFile getRUbioSeqFile(String path) {
+	public static RUbioSeqFile getRUbioSeqFile(String path, boolean checkFileExists) {
 		User currentUser = getCurrentUser();
 		for (DataStore d : DBUtils.getDatastores(DBInitializer
 				.getRUbioSeqEntityMananger())) {
 			if (validDataStore(d, currentUser) && path.startsWith(d.getPath())) {
-				RUbioSeqFile toret = new RUbioSeqFile(new File(path), d);
-				return toret;
+				File realFile = new File(path);
+				if ((!checkFileExists && realFile.getParent()!=null && new File(realFile.getParent()).exists())
+						|| realFile.exists()) {
+					RUbioSeqFile toret = new RUbioSeqFile(new File(path), d);
+					return toret;
+				}
 			}
 		}
-		return null;
+		return new InvalidRUbioSeqFile(path);
+	}
+	
+	public static RUbioSeqFile getRUbioSeqFile(String path) {
+		return getRUbioSeqFile(path, true);
 	}
 	
 	private static boolean validDataStore(DataStore d, User currentUser) {

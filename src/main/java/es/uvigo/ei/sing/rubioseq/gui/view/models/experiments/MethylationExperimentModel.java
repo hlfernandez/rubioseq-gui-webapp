@@ -180,14 +180,15 @@ public class MethylationExperimentModel {
 	}
 	
 	@DependsOn({"experiment.referencePath", "experiment.plattform", "experiment.projectCompletePath",
-		"samples", "experiment.readsPath", "experiment.methylType"})
+		"samples", "experiment.readsPath", "experiment.methylType", "experiment.intervalsPath"})
 	public boolean isEnabledExportButton(){
 		if(experiment.getReferencePath()==null || 
 				experiment.getPlattform()==null ||
 				experiment.getProjectCompletePath()==null ||
 				!experiment.checkSamples() ||
 				experiment.getReadsPath()==null ||
-				experiment.getMethylType()==null){
+				experiment.getMethylType()==null ||
+				!experiment.checkPaths()){
 			return false;
 		}
 		return true;

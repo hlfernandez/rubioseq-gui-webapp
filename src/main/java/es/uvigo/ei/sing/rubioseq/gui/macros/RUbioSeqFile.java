@@ -19,6 +19,7 @@ package es.uvigo.ei.sing.rubioseq.gui.macros;
 import java.io.File;
 
 import es.uvigo.ei.sing.rubioseq.DataStore;
+import es.uvigo.ei.sing.rubioseq.gui.util.Utils;
 
 /**
  * Represents a file belonging to a specific DataStore.
@@ -60,6 +61,11 @@ public class RUbioSeqFile {
 
 	public DataStore getDatastore() {
 		return datastore;
+	}
+	
+	public String getSclass(){
+		return this.file == null || !this.file.exists() ? Utils.SCLASS_INVALID_PATH
+				: "";
 	}
 }
 

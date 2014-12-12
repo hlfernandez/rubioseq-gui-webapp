@@ -32,6 +32,7 @@ import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
+import es.uvigo.ei.sing.rubioseq.gui.macros.InvalidRUbioSeqFile;
 import es.uvigo.ei.sing.rubioseq.gui.macros.RUbioSeqFile;
 import es.uvigo.ei.sing.rubioseq.gui.util.Utils;
 import es.uvigo.ei.sing.rubioseq.gui.view.models.experiments.Sample.SampleType;
@@ -43,7 +44,7 @@ import es.uvigo.ei.sing.rubioseq.gui.view.models.progress.RUbioSeqEvent;
  * @author hlfernandez
  *
  */
-public class ChipSeqExperiment implements Measurable{
+public class ChipSeqExperiment implements Measurable, RUbioSeqExperiment {
 
 	public static final String CONFIG_DATA = "configData";
 	public static final String GENREF = "GenRef";
@@ -797,5 +798,22 @@ public class ChipSeqExperiment implements Measurable{
 			}
 		}
 		return 0;
+	}
+
+	public boolean checkPaths() {
+		if (this.getGenRefPath() instanceof InvalidRUbioSeqFile
+				|| this.getDirOutBase() instanceof InvalidRUbioSeqFile
+				|| this.getDataInDirpreProcess() instanceof InvalidRUbioSeqFile
+				|| this.getChromSize() instanceof InvalidRUbioSeqFile
+				|| (this.getCcatConfigFile()!= null && this.getCcatConfigFile() instanceof InvalidRUbioSeqFile)
+				|| (this.getAnnotFile()!=null && this.getAnnotFile() instanceof InvalidRUbioSeqFile))
+			return false;
+		else
+			return true;
+	}
+	
+	@Override
+	public boolean checkConfiguration(){
+		return this.checkPaths();
 	}
 }

@@ -23,6 +23,7 @@ import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Label;
+import org.zkoss.zul.Layout;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 
@@ -42,6 +43,9 @@ public class FileChooser extends HtmlMacroComponent {
 	private Label pathlabel;
 	
 	@Wire
+	private Layout mainlayout;
+	
+	@Wire
 	private Window fileselector;
 	
 	private String type;
@@ -58,6 +62,7 @@ public class FileChooser extends HtmlMacroComponent {
 		if(path!=null){
 			this.pathlabel.setValue(path.getAbsolutePathWithDatastoreName());
 			this.pathbox.setText(path.getAbsolutePathWithDatastoreName());
+			this.mainlayout.setSclass(path.getSclass());
 		} else{
 			this.pathlabel.setValue("");
 			this.pathbox.setText("");
@@ -89,11 +94,10 @@ public class FileChooser extends HtmlMacroComponent {
 		this.fileselector.setVisible(false);
 	}
 	
-	 public void doEdited(){
-		 System.out.println("Changed");
-		 this.pathlabel.setValue(this.pathbox.getText());
-		 Events.postEvent("onEdited", this, null);
-	 }
+	public void doEdited() {
+		this.pathlabel.setValue(this.pathbox.getText());
+		Events.postEvent("onEdited", this, null);
+	}
 
 	 public Textbox getPathbox() {
 		return pathbox;

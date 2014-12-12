@@ -31,6 +31,7 @@ import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
+import es.uvigo.ei.sing.rubioseq.gui.macros.InvalidRUbioSeqFile;
 import es.uvigo.ei.sing.rubioseq.gui.macros.RUbioSeqFile;
 import es.uvigo.ei.sing.rubioseq.gui.util.Utils;
 import es.uvigo.ei.sing.rubioseq.gui.view.models.progress.Measurable;
@@ -41,7 +42,7 @@ import es.uvigo.ei.sing.rubioseq.gui.view.models.progress.RUbioSeqEvent;
  * @author hlfernandez
  *
  */
-public class MethylationExperiment implements Measurable{
+public class MethylationExperiment implements Measurable, RUbioSeqExperiment {
 
 	public static final String CONFIG_DATA = "configData";
 	public static final String REFERENCEPATH = "referencePath";
@@ -485,7 +486,7 @@ public class MethylationExperiment implements Measurable{
 
 			Element projectCompletePath = configData.getChild(PROJECT_COMPLETE_PATH);
 			if(validElement(projectCompletePath)){
-				this.setProjectCompletePath(Utils.getRUbioSeqFile(projectCompletePath.getValue()));
+				this.setProjectCompletePath(Utils.getRUbioSeqFile(projectCompletePath.getValue(), false));
 			}
 			
 			Element readsPath = configData.getChild(READSPATH);
@@ -712,5 +713,20 @@ public class MethylationExperiment implements Measurable{
 	
 	public int getNumSamples(){
 		return this.getSamples().size();
+	}
+	
+	public boolean checkPaths() {
+		if (this.getReferencePath() instanceof InvalidRUbioSeqFile
+				|| this.getProjectCompletePath() instanceof InvalidRUbioSeqFile
+				|| (this.getIntervalsPath()!=null && this.getIntervalsPath() instanceof InvalidRUbioSeqFile)
+				|| this.getReadsPath() instanceof InvalidRUbioSeqFile)
+			return false;
+		else
+			return true;
+	}
+	
+	@Override
+	public boolean checkConfiguration(){
+		return this.checkPaths();
 	}
 }

@@ -19,7 +19,7 @@
 	id="mainlayout"
 	apply="org.zkoss.bind.BindComposer"
     viewModel="@id('fvm') @init('es.uvigo.ei.sing.rubioseq.gui.macros.FileChooserVM')">
-    
+
 	<label hflex="1" id="pathlabel"/>
 	<separator width="10px"></separator>
 	<button id="browsebutton" label="browse" image="/imgs/icons/browse-folder-16.png"></button>

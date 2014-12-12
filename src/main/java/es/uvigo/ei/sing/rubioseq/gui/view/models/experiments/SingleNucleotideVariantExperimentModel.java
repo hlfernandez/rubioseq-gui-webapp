@@ -477,9 +477,10 @@ public class SingleNucleotideVariantExperimentModel {
 	}
 	
 	@DependsOn({"experiment.genRefPath", "experiment.dbSnpAnnotPath", "experiment.genomes1000AnnotPath",
-		"experiment.indelAnnotPath", "experiment.plattform", "experiment.dirOutBase", 
+		"experiment.indelAnnotPath", "experiment.plattform", "experiment.dirOutBase", "experiment.intervalsPath", 
 		"experiment.projectId", "experiment.dataInDirpreProcess", "samples"})
 	public boolean isEnabledExportButton(){
+		System.err.println("Must check if it is enabled");
 		if(experiment.getGenRefPath()==null || 
 				experiment.getDbSnpAnnotPath()==null ||
 				experiment.getGenomes1000AnnotPath()==null ||
@@ -488,7 +489,8 @@ public class SingleNucleotideVariantExperimentModel {
 				experiment.getDirOutBase()==null ||
 				!isStringOk(experiment.getProjectId()) ||
 				experiment.getDataInDirpreProcess()==null ||
-				this.getSamples().size() == 0){
+				this.getSamples().size() == 0 ||
+				!experiment.checkPaths()){
 			return false;
 		}
 		return true;

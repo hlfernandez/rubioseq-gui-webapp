@@ -30,6 +30,7 @@ import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
+import es.uvigo.ei.sing.rubioseq.gui.macros.InvalidRUbioSeqFile;
 import es.uvigo.ei.sing.rubioseq.gui.macros.RUbioSeqFile;
 import es.uvigo.ei.sing.rubioseq.gui.util.Utils;
 import es.uvigo.ei.sing.rubioseq.gui.view.models.experiments.Sample.SampleType;
@@ -41,7 +42,7 @@ import es.uvigo.ei.sing.rubioseq.gui.view.models.progress.RUbioSeqEvent;
  * @author hlfernandez
  *
  */
-public class CopyNumberVariationExperiment implements Measurable{
+public class CopyNumberVariationExperiment implements Measurable, RUbioSeqExperiment {
 
 	public static final String CONFIG_DATA = "configData";
 	public static final String GENREF = "GenRef";
@@ -657,5 +658,23 @@ public class CopyNumberVariationExperiment implements Measurable{
 			}
 		}
 		return 0;
+	}
+
+	public boolean checkPaths() {
+		if (this.getGenRefPath() instanceof InvalidRUbioSeqFile
+				|| this.getDbSnpAnnotPath() instanceof InvalidRUbioSeqFile
+				|| this.getIndelAnnotPath() instanceof InvalidRUbioSeqFile
+				|| this.getIntervalsPath() instanceof InvalidRUbioSeqFile
+				|| this.getDirOutBase() instanceof InvalidRUbioSeqFile
+				|| (this.getBaseline() != null && this.getBaseline() instanceof InvalidRUbioSeqFile)
+				|| this.getDataInDirpreProcess() instanceof InvalidRUbioSeqFile)
+			return false;
+		else
+			return true;
+	}
+	
+	@Override
+	public boolean checkConfiguration(){
+		return this.checkPaths();
 	}
 }

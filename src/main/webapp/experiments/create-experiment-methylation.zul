@@ -200,12 +200,12 @@
 										    	</columns>
 										    	<template name="model" var="sample">
 										        	<row onCreate="tb_mandatory.invalidate();">
-										        		<hlayout>
+										        		<hlayout sclass="@bind(sample.sample1.sclass)">
 										        			<label hflex="1" value="@bind(sample.sample1.absolutePathWithDatastoreName)" tooltiptext="@bind(sample.sample2.absolutePathWithDatastoreName)"/> 
 										        			<button onClick="@command('editSample1', sample=sample)" image="/imgs/icons/edit-16.png" tooltiptext="Edit sample1"/>
 										        		</hlayout>
-										        		<hlayout>
-										        			<label hflex="1" value="@bind(sample.sample2.absolutePathWithDatastoreName)" tooltiptext="@bind(sample.sample2.absolutePathWithDatastoreName)"/> 
+										        		<hlayout sclass="@bind(sample.sample2.sclass)">
+										        			<label hflex="1" value="@bind(sample.sample2.absolutePathWithDatastoreName)" tooltiptext="@bind(sample.sample2.absolutePathWithDatastoreName)"/>
 										        			<button onClick="@command('editSample2', sample=sample)" image="/imgs/icons/edit-16.png" tooltiptext="Edit sample1"/>
  											              	<button tooltiptext="Restore default" onClick="@command('restoreSample2', sample=sample)" image="/imgs/icons/default-16.png"/>
 										        		</hlayout>

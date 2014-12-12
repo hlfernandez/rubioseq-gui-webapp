@@ -47,6 +47,7 @@ import es.uvigo.ei.sing.rubioseq.gui.view.models.experiments.CopyNumberVariation
 import es.uvigo.ei.sing.rubioseq.gui.view.models.experiments.ExperimentUtils;
 import es.uvigo.ei.sing.rubioseq.gui.view.models.experiments.InvalidRubioSeqParameterException;
 import es.uvigo.ei.sing.rubioseq.gui.view.models.experiments.MethylationExperiment;
+import es.uvigo.ei.sing.rubioseq.gui.view.models.experiments.RUbioSeqExperiment;
 import es.uvigo.ei.sing.rubioseq.gui.view.models.experiments.SingleNucleotideVariantExperiment;
 
 /**
@@ -183,11 +184,9 @@ public class ExecuteExperimentModel {
 								Messagebox.ERROR);
 			} else if (!experimentFile.canRead()){
 				clearStatus();
-					Messagebox
-					.show("Can't read the input file.",
-							"Invalid input file", Messagebox.OK,
-							Messagebox.ERROR);
-					}
+				Messagebox.show("Can't read the input file.",
+						"Invalid input file", Messagebox.OK, Messagebox.ERROR);
+			}
 		} catch(InvalidRubioSeqParameterException ex){
 			clearStatus();
 			Messagebox
@@ -195,6 +194,20 @@ public class ExecuteExperimentModel {
 					"Invalid input file", Messagebox.OK,
 					Messagebox.ERROR);
 			
+		}
+		try {
+			RUbioSeqExperiment experiment = getExperimentConfiguration();
+			if (!experiment.checkConfiguration()) {
+				clearStatus();
+				Messagebox
+						.show("Invalid input file. The loaded parameters are not valid, please, fix your file and load it again.",
+								"Invalid configuration", Messagebox.OK,
+								Messagebox.ERROR);
+			}
+		} catch (InvalidRubioSeqParameterException e) {
+			clearStatus();
+			Messagebox.show("Can't read the input file.", "Invalid input file",
+					Messagebox.OK, Messagebox.ERROR);
 		}
 	}
 	
@@ -392,5 +405,29 @@ public class ExecuteExperimentModel {
 	
 	public boolean isExperimentExecutable(){
 		return Utils.isValidFile(DBUtils.getConfiguration(this.em).getRubioseqCommand());
+	}
+
+	public RUbioSeqExperiment getExperimentConfiguration()
+			throws InvalidRubioSeqParameterException {
+		File configFile = this.getConfigFile().getFile();
+		if (this.experimentType.equals(ExperimentType.SNV)) {
+			SingleNucleotideVariantExperiment experiment = new SingleNucleotideVariantExperiment();
+			experiment.loadDataFromFile(configFile);
+			return experiment;
+		} else if (this.experimentType.equals(ExperimentType.CNV)) {
+			CopyNumberVariationExperiment experiment = new CopyNumberVariationExperiment();
+			experiment.loadDataFromFile(configFile);
+			return experiment;
+		} else if (this.experimentType.equals(ExperimentType.Methylation)) {
+			MethylationExperiment experiment = new MethylationExperiment();
+			experiment.loadDataFromFile(configFile);
+			return experiment;
+		} else if (this.experimentType.equals(ExperimentType.CHIPSeq)) {
+			ChipSeqExperiment experiment = new ChipSeqExperiment();
+			experiment.loadDataFromFile(configFile);
+			return experiment;
+		} else {
+			return null;
+		}
 	}
 }

@@ -31,6 +31,7 @@ import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
+import es.uvigo.ei.sing.rubioseq.gui.macros.InvalidRUbioSeqFile;
 import es.uvigo.ei.sing.rubioseq.gui.macros.RUbioSeqFile;
 import es.uvigo.ei.sing.rubioseq.gui.util.Utils;
 import es.uvigo.ei.sing.rubioseq.gui.view.models.experiments.HardFilter.HFilterType;
@@ -43,7 +44,7 @@ import es.uvigo.ei.sing.rubioseq.gui.view.models.progress.RUbioSeqEvent;
  * @author hlfernandez
  *
  */
-public class SingleNucleotideVariantExperiment implements Measurable {
+public class SingleNucleotideVariantExperiment implements Measurable, RUbioSeqExperiment {
 
 	public static final String CONFIG_DATA = "configData";
 	public static final String GENREF = "GenRef";
@@ -1188,5 +1189,23 @@ public class SingleNucleotideVariantExperiment implements Measurable {
 	
 	public boolean isTCAnalysisStageEnabled(){
 		return this.gettCFlag().equals(1) && this.getNumSamples() > 1;
+	}
+
+	public boolean checkPaths() {
+		if (this.getGenRefPath() instanceof InvalidRUbioSeqFile
+				|| this.getDbSnpAnnotPath() instanceof InvalidRUbioSeqFile
+				|| this.getGenomes1000AnnotPath() instanceof InvalidRUbioSeqFile
+				|| this.getIndelAnnotPath() instanceof InvalidRUbioSeqFile
+				|| (this.getIntervalsPath()!=null && this.getIntervalsPath() instanceof InvalidRUbioSeqFile)
+				|| this.getDirOutBase() instanceof InvalidRUbioSeqFile
+				|| this.getDataInDirpreProcess() instanceof InvalidRUbioSeqFile)
+			return false;
+		else
+			return true;
+	}
+	
+	@Override
+	public boolean checkConfiguration(){
+		return this.checkPaths();
 	}
 }

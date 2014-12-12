@@ -377,7 +377,7 @@ public class CopyNumberVariationExperimentModel {
 	}
 	
 	@DependsOn({"experiment.genRefPath", "experiment.dbSnpAnnotPath", "experiment.intervalsPath",
-		"experiment.indelAnnotPath", "experiment.plattform", "experiment.dirOutBase", 
+		"experiment.indelAnnotPath", "experiment.plattform", "experiment.dirOutBase", "experiment.baseline", 
 		"experiment.projectId", "experiment.dataInDirpreProcess", "samples"})
 	public boolean isEnabledExportButton(){
 		if(experiment.getGenRefPath() == null || 
@@ -388,7 +388,8 @@ public class CopyNumberVariationExperimentModel {
 				experiment.getDirOutBase() == null ||
 				experiment.getProjectId() == null ||
 				experiment.getDataInDirpreProcess() == null ||
-				this.getSamples().size() == 0){
+				this.getSamples().size() == 0 ||
+				!experiment.checkPaths()){
 			return false;
 		}
 		return true;

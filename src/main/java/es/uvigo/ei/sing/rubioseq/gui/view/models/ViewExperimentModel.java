@@ -109,17 +109,21 @@ public class ViewExperimentModel {
 		}
 	}
 	
-	public static File lookUpXMLConfigurationFile(String dir){
+	public static File lookUpXMLConfigurationFile(String dir) {
 		File directory = new File(dir);
 		File toret = null;
-		for (File f : directory.listFiles()) {
-			if (f.canRead() && f.getName().endsWith(".xml")) {
-				toret = f;
+		try {
+			for (File f : directory.listFiles()) {
+				if (f.canRead() && f.getName().endsWith(".xml")) {
+					toret = f;
+				}
 			}
+			return toret;
+		} catch (NullPointerException ex) {
+			return null;
 		}
-		return toret;
 	}
-	
+
 	public Experiment getExperiment() {
 		return experiment;
 	}
