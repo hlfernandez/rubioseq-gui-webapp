@@ -21,6 +21,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import org.jdom2.Comment;
 import org.jdom2.Document;
@@ -41,6 +42,7 @@ import es.uvigo.ei.sing.rubioseq.gui.util.Utils;
 public class ConfigProgramPathsMethylation {
 
 	private static final String COMMENT_METHYLATION = "RUbioSeq MethylBis CONFIG FILE";
+	private static final String TEMPLATE_METHYLATION = "template_configProgramPaths.txt";
 	public static final String CONFIG_DATA = "configData";
 	public static final String BISMARK_PATH = "bismarkPath";
 	public static final String BOWTIE_PATH = "bowtiePath";
@@ -65,8 +67,8 @@ public class ConfigProgramPathsMethylation {
 	private RUbioSeqFile filoPath;
 	private Integer nthr = 1;
 	private Integer nthr_DV = 1;
-	private String javaRam = "-Xmx16G";
-	private String javaRam_DV = "-Xmx16G";
+	private String javaRam = "";
+	private String javaRam_DV = "";
 	private QueueSystem queueSystem;
 	private String queueName = "";
 	private String queueName_DV = "";
@@ -225,7 +227,44 @@ public class ConfigProgramPathsMethylation {
 		return e != null && e.getValue() != null && !e.getValue().equals("");
 	}
 	
+	private void loadDefaultParameters(File configFile) {
+		File defaultParametersFile = new File(configFile.getParentFile(),
+				TEMPLATE_METHYLATION);
+		Map<String, String> paramNameToValue = Utils.loadTemplateParametersFile(defaultParametersFile);
+		for(String parameterName : paramNameToValue.keySet()){
+			String parameterValue = paramNameToValue.get(parameterName);
+			if (parameterName.equals(NTHR)) {
+				try {
+					this.nthr_DV = Integer.valueOf(parameterValue);
+					this.nthr = this.nthr_DV;
+				} catch (Exception ex) {
+
+				}
+			} else if (parameterName.equals(JAVA_RAM)) {
+				this.javaRam_DV = parameterValue;
+				this.javaRam = parameterValue;
+			} else if (parameterName.equals(QUEUE_NAME)) {
+				this.queueName_DV = parameterValue;
+				this.queueName = parameterValue;
+			} else if (parameterName.equals(MULTICORE_NAME)) {
+				this.multicoreName_DV = parameterValue;
+				this.multicoreName = parameterValue;
+			} else if (parameterName.equals(MULTICORE_NUMBER)) {
+				try {
+					this.multicoreNumber_DV = Integer
+							.valueOf(parameterValue);
+					this.multicoreNumber = this.multicoreNumber_DV;
+				} catch (Exception ex) {
+
+				}
+			}
+		}
+	}
+	
 	public void loadDataFromFile(File editFile) {
+		
+		loadDefaultParameters(editFile);
+		
 		SAXBuilder saxBuilder = new SAXBuilder();
 		try {
 			Document document = saxBuilder.build(editFile);

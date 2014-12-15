@@ -21,6 +21,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import org.jdom2.Comment;
 import org.jdom2.Document;
@@ -41,6 +42,7 @@ import es.uvigo.ei.sing.rubioseq.gui.util.Utils;
 public class ConfigProgramPathsSNV {
 
 	private static final String COMMENT_VARIANT_CALLER = "RUbioSeq variantCaller CONFIG FILE";
+	private static final String TEMPLATE_VARIANT_CALLER = "template_configProgramPaths.txt";
 	public static final String CONFIG_DATA = "configData";
 	public static final String BWA_PATH = "bwaPath";
 	public static final String SAMTOOLS_PATH = "samtoolsPath";
@@ -61,16 +63,16 @@ public class ConfigProgramPathsSNV {
 	private RUbioSeqFile picardPath;
 	private RUbioSeqFile bfastPath;
 	private RUbioSeqFile fastqcPath;
-	private Integer nthr = 1;
+	private Integer nthr;
 	private Integer nthr_DV = 1;
-	private String javaRam = "-Xmx16G";
-	private String javaRam_DV = "-Xmx16G";
+	private String javaRam = "";
+	private String javaRam_DV = "";
 	private QueueSystem queueSystem;
 	private String queueName = "";
 	private String queueName_DV = "";
-	private String multicoreName = "";
+	private String multicoreName;
 	private String multicoreName_DV = "";
-	private Integer multicoreNumber = -1;
+	private Integer multicoreNumber;
 	private Integer multicoreNumber_DV = -1;
 	
 	public enum QueueSystem {
@@ -215,6 +217,9 @@ public class ConfigProgramPathsSNV {
 	}
 	
 	public void loadDataFromFile(File editFile) {
+
+		loadDefaultParameters(editFile);
+
 		SAXBuilder saxBuilder = new SAXBuilder();
 		try {
 			Document document = saxBuilder.build(editFile);
@@ -298,6 +303,40 @@ public class ConfigProgramPathsSNV {
 		}
 	}
 	
+	private void loadDefaultParameters(File configFile) {
+		File defaultParametersFile = new File(configFile.getParentFile(),
+				TEMPLATE_VARIANT_CALLER);
+		Map<String, String> paramNameToValue = Utils.loadTemplateParametersFile(defaultParametersFile);
+		for(String parameterName : paramNameToValue.keySet()){
+			String parameterValue = paramNameToValue.get(parameterName);
+			if (parameterName.equals(NTHR)) {
+				try {
+					this.nthr_DV = Integer.valueOf(parameterValue);
+					this.nthr = this.nthr_DV;
+				} catch (Exception ex) {
+
+				}
+			} else if (parameterName.equals(JAVA_RAM)) {
+				this.javaRam_DV = parameterValue;
+				this.javaRam = parameterValue;
+			} else if (parameterName.equals(QUEUE_NAME)) {
+				this.queueName_DV = parameterValue;
+				this.queueName = parameterValue;
+			} else if (parameterName.equals(MULTICORE_NAME)) {
+				this.multicoreName_DV = parameterValue;
+				this.multicoreName = parameterValue;
+			} else if (parameterName.equals(MULTICORE_NUMBER)) {
+				try {
+					this.multicoreNumber_DV = Integer
+							.valueOf(parameterValue);
+					this.multicoreNumber = this.multicoreNumber_DV;
+				} catch (Exception ex) {
+
+				}
+			}
+		}
+	}
+
 	public void exportToXML(File output) throws IOException {
 		Document configurationFile = new Document();
 		Comment comment = new Comment(COMMENT_VARIANT_CALLER);

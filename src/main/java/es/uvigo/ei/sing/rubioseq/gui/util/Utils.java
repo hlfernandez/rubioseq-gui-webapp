@@ -16,7 +16,12 @@
 */
 package es.uvigo.ei.sing.rubioseq.gui.util;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.zkoss.zk.ui.Sessions;
 
@@ -102,5 +107,34 @@ public class Utils {
 	public static boolean existDirectory(String path) {
 		File f = new File(path);
 		return f.isDirectory();
+	}
+	
+	@SuppressWarnings("resource")
+	public static Map<String, String> loadTemplateParametersFile(File f){
+		Map<String, String> toret = new HashMap<String, String>();
+		BufferedReader br;
+		try {
+			br = new BufferedReader(new FileReader(
+					f));
+		} catch (FileNotFoundException e1) {
+			return toret;
+		}
+		if(!f.exists()){
+			return toret;
+		}
+		try {
+			String line;
+			while ((line = br.readLine()) != null) {
+				String[] parts = line.split("	");
+				if (parts.length == 4) {
+					String parameterName = parts[0];
+					String parameterValue = parts[3];
+					toret.put(parameterName, parameterValue);
+				}
+			}
+		}catch(Exception e){
+			
+		}
+		return toret;
 	}
 }
