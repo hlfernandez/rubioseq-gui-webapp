@@ -71,7 +71,7 @@ public class DBInitializer implements ServletContextListener{
 			 */
 			if (em.createQuery("SELECT u FROM RUbioSeqConfiguration u").getResultList().size() == 0){
 				RUbioSeqConfiguration config = new RUbioSeqConfiguration();
-				config.setRubioseqCommand("/opt/rubioseq3/rubioseq.pl");
+				config.setRubioseqCommand("/opt/RUbioSeq3.7/RUbioSeq.pl");
 				config.setPrivateDatastoresRootDirectory("/path/to/private/datastores/root");
 				config.setCreatePrivateDatastoresOnUserRegistration(false);
 				
