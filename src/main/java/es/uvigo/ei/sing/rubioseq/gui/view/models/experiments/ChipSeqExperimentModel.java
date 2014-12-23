@@ -182,7 +182,7 @@ public class ChipSeqExperimentModel {
 	}
 	
 	@DependsOn({"experiment.genRefPath", "experiment.plattform", "experiment.dirOutBase", 
-		"experiment.projectId", "experiment.dataInDirpreProcess", "experiments",
+		"experiment.projectId", "experiment.dataInDirpreProcess", "experiment.chromSize", "experiments",
 		"experiment.ccatConfigFile", "experiment.annotFile"})
 	public boolean isEnabledExportButton(){
 		if(experiment.getGenRefPath() == null || 
