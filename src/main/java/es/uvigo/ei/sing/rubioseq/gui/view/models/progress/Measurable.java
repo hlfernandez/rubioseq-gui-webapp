@@ -26,4 +26,5 @@ import java.util.List;
 public interface Measurable {
 	public List<String> getPathsToWatch();
 	public double getIncrement(RUbioSeqEvent event, int numStages);
+	public int getStagesCount(int executionLevel);
 }

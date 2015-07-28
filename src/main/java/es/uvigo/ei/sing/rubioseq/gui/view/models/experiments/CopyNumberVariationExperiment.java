@@ -677,4 +677,9 @@ public class CopyNumberVariationExperiment implements Measurable, RUbioSeqExperi
 	public boolean checkConfiguration(){
 		return this.checkPaths();
 	}
+
+	@Override
+	public int getStagesCount(int executionLevel) {
+		return executionLevel > 0 ? 1 : 3;
+	}
 }

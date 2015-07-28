@@ -816,4 +816,9 @@ public class ChipSeqExperiment implements Measurable, RUbioSeqExperiment {
 	public boolean checkConfiguration(){
 		return this.checkPaths();
 	}
+
+	@Override
+	public int getStagesCount(int executionLevel) {
+		return executionLevel > 0 ? 1 : 4;
+	}
 }

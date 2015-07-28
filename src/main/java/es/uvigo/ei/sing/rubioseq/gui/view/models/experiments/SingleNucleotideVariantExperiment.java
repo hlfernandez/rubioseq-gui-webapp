@@ -1208,4 +1208,29 @@ public class SingleNucleotideVariantExperiment implements Measurable, RUbioSeqEx
 	public boolean checkConfiguration(){
 		return this.checkPaths();
 	}
+
+	@Override
+	public int getStagesCount(int executionLevel) {
+		int stagesCount;
+		if (executionLevel > 0) {
+			stagesCount = 1;
+		} else {
+			stagesCount = 4;
+		}
+
+		if (shouldAddTCAnalysisStage(executionLevel)) {
+			stagesCount++;
+		}
+		
+		return stagesCount;
+	}
+
+	private boolean shouldAddTCAnalysisStage(int executionLevel) {
+		return  isTCAnalysisStage(executionLevel) && 
+				isTCAnalysisStageEnabled();
+	}
+
+	private boolean isTCAnalysisStage(int executionLevel) {
+		return executionLevel == 0 || executionLevel == 4;
+	}
 }

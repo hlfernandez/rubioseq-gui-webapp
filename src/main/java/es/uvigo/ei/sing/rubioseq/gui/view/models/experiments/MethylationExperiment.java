@@ -729,4 +729,18 @@ public class MethylationExperiment implements Measurable, RUbioSeqExperiment {
 	public boolean checkConfiguration(){
 		return this.checkPaths();
 	}
+
+	@Override
+	public int getStagesCount(int executionLevel) {
+		int stagesCount;
+		if (executionLevel > 0) {
+			stagesCount = 1;
+		} else {
+			stagesCount = 2;
+			if (getIntervalsPath() != null) {
+				stagesCount++;
+			}
+		}
+		return stagesCount;
+	}
 }

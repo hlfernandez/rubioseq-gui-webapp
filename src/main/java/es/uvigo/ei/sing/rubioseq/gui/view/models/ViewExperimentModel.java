@@ -250,39 +250,8 @@ public class ViewExperimentModel {
     private int stagesCount = -1;
     
     private void initializeStagesCount(){
-		if (this.experiment.getType().equals(ExperimentType.SNV)) {
-			if (this.experiment.getExecutionLevel() > 0) {
-				stagesCount = 1;
-			} else {
-				stagesCount = 4;
-			}
-			if (((SingleNucleotideVariantExperiment) this.experimentData)
-					.isTCAnalysisStageEnabled()) {
-				stagesCount++;
-			}
-		} else if (this.experiment.getType().equals(ExperimentType.CNV)) {
-			if (this.experiment.getExecutionLevel() > 0) {
-				stagesCount = 1;
-			} else {
-				stagesCount = 3;
-			}
-		} else if (this.experiment.getType().equals(ExperimentType.CHIPSeq)) {
-			if (this.experiment.getExecutionLevel() > 0) {
-				stagesCount = 1;
-			} else {
-				stagesCount = 4;
-			}
-		} else if (this.experiment.getType().equals(ExperimentType.Methylation)) {
-			if (this.experiment.getExecutionLevel() > 0) {
-				stagesCount = 1;
-			} else {
-				stagesCount = 2;
-			}
-			if (((MethylationExperiment) this.experimentData)
-					.getIntervalsPath() != null) {
-				stagesCount++;
-			}
-		}
+		this.stagesCount = this.experimentData.getStagesCount(
+			this.experiment.getExecutionLevel());
     }
     
 	public int getStagesCount() {
