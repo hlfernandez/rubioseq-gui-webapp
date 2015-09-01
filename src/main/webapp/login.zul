@@ -125,7 +125,7 @@
 												Password :
 												<textbox id="password"
 													type="password" value="@bind(user.loginPassword)"
-													hflex="1" />
+													hflex="1" onOK="@command('checkLogin')"/>
 											</row>
 										</rows>
 									</grid>
@@ -175,7 +175,7 @@
 													<textbox
 														id="singUpPassword" type="password"
 														value="@bind(user.singUpPassword) @validator('password')"
-														hflex="1" />
+														hflex="1"/>
 												</row>
 												<row>
 													Repeat Password :
