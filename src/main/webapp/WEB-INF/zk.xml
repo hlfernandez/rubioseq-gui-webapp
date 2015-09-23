@@ -31,7 +31,10 @@
 		<name>org.zkoss.zul.listbox.rod</name>
 		<value>true</value>
 	</library-property>
-
+	<library-property>
+		<name>org.zkoss.zul.progressbox.position</name>
+		<value>center</value>
+	</library-property>
 
 	<session-config>
 		<!-- Turn on the following if you want a different timeout Note: The unit 
